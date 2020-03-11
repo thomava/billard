@@ -34,7 +34,7 @@ public class Vecteur{
         return new Vecteur(x*scal, y*scal);
     }
     public Vecteur MetreVersPixels(){
-      int a = ;
+      int a = 20;
       return new Vecteur(x*a, y*a);
     }
 
