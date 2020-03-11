@@ -1,4 +1,4 @@
-
+import java.awt.Graphics;
 public class Bille extends Disque{
 
     private double masse; // Masse de la bille en grammes
@@ -100,8 +100,8 @@ public class Bille extends Disque{
 
 // AFFICHAGE -----------------------------------------------------------------------------------------------------
   public void AfficherBille( Graphics g ){
-    int xPosition = centre.MetreVersPixels().x-super.rayon;
-    int xPosition = centre.MetreVersPixels().y-super.rayon;
-    g.fillOval(xPosition, yPosition, super.rayon, super.rayon);
+    int xPosition = (int)(centre.MetreVersPixels().x-super.rayon);
+    int yPosition = (int)(centre.MetreVersPixels().y-super.rayon);
+    g.fillOval(xPosition, yPosition, (int)super.rayon, (int)super.rayon);
   }
 }
