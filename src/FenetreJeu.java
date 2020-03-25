@@ -46,13 +46,14 @@ public class FenetreJeu extends JFrame implements ActionListener {
         panneauGeneral.add(BoutonRegles);
         panneauGeneral.add(panneauBilles);
 
+        this.add(panneauGeneral);
         this.setVisible(true);
     }
 
     //Pour afficher les règles quand on appuie sur le bouton "Règles du jeu"
     public void actionPerformed (ActionEvent e){
         if (e.getSource()==BoutonRegles){
-            blabla;
+            bonjour les amis;
         }
     }
 }
