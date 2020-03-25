@@ -33,5 +33,9 @@ public class Vecteur{
     public Vecteur mul(double scal){
         return new Vecteur(x*scal, y*scal);
     }
+    public Vecteur MetreVersPixels(){
+      int a = 20;
+      return new Vecteur(x*a, y*a);
+    }
 
 }

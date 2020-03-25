@@ -6,6 +6,7 @@ public class Contact{
     private Vecteur norm;
     private Vecteur tan;
 
+// CONSTRUCTEURS -----------------------------------------------------------------------------------------------------
     public Contact(Bille _e1, Element _e2, Vecteur _norm){
         e1 = _e1;
         e2 = _e2;
@@ -13,6 +14,7 @@ public class Contact{
         tan = norm.vecteurNormal();
     }
 
+// FONCTIONS -----------------------------------------------------------------------------------------------------
     public void faireContact(){
         double vitTan1 = tan.produitScalaire(e1.getVitesse());
         double vitTan2 = 0;
