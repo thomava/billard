@@ -32,6 +32,7 @@ public class Bille extends Disque{
     public Bille(Vecteur centre, Equipe couleur){
 	/* fonction qui va permettre de construire notre objet avec une masse et un rayon pédéfini
 	qui sont amenés à ne pas varier d'un objet à un autre */
+
 		// la Bille est un Disque, on construit le disque
 		super(centre, 10.0); // on crée un bille de rayon de 10 cm
 
@@ -67,6 +68,7 @@ public class Bille extends Disque{
 	}
 // FONCTIONS -----------------------------------------------------------------------------------------------------
     public String toString(){
+    /* fonction qui va permettre d'afficher les informations liées à la bille */
 		String res = super.toString() + "billle de "+ couleur + "; de masse " + masse;
 		if (estTombe==true){
 			res += "; " + joueur+ " à fait tomber la bille.";
@@ -78,7 +80,7 @@ public class Bille extends Disque{
     }
 
     public void actualiser(int dT){
-
+    /* fonction qui va permettre d'afficher les informations liées à la bille */
 		//on calcule la nouvelle vitesse de la Bille
 		vitesse.x += dT*acceleration.x;
 		vitesse.y += dT*acceleration.y;
@@ -87,15 +89,57 @@ public class Bille extends Disque{
 		super.centre.x += vitesse.x*dT;
 		super.centre.y += vitesse.y*dT;
 
-		DiminuerAcceleration();
+    //On diminue l'acceleration pour le prochain déplacement
+    DiminuerAcceleration();
+    }
+
+		public boolean EstEnContact(Element objet, Joueur joueurActif){
+      /* fonction qui dit si la bille est en contact avec quelque chose : si c'est une autre bille,
+      elle répond true, si la bille rencontre un trou, on fait tomber la bille et on retourne false */
+      Vecteur Distance = new Vecteur(Maths.abs(objet.centre.x-this.centre.x), Maths.abs(objet.centre.y-this.centre.y));
+      //On compare la distance entre les centre des deux billes à la longueur de deux rayons pour voir si les deux billes sont en Contact
+      if(objet instanceof Bille){
+        if(Distance.norme() <= 2*super.rayon){
+          return true;
+        }
+        else{
+          return false;
+        }
+      }
+      if(objet instanceof Trou){
+        if(Distance.norme() <= super.rayon){
+          return true;
+          Tomber(joueurActif);
+        }
+        else{
+          return false;
+        }
+      }
+    }
+
+    public Contact Collision(){
 
     }
 
+    public Contact Tomber(Joueur joueurActif){
+    /* fonction qui met a jour le statut de la bille : on fait tomber la bille */
+      this.estTombe = true;
+      this.joueur = joueurActif;
+    }
+
     public void DiminuerAcceleration(){
-		double visq =1.85*Math.pow(10,-8); // avec la viquosité dynamique en grammes par metre par secondes
-		double k = 6*Math.PI*super.rayon*visq;
-		acceleration.x=-k*vitesse.x/masse;
-		acceleration.y=-k*vitesse.y/masse;
+  		double visq =1.85*Math.pow(10,-8); // avec la viquosité dynamique en grammes par metre par secondes
+  		double k = 6*Math.PI*super.rayon*visq;
+  		acceleration.x=-k*vitesse.x/masse;
+  		acceleration.y=-k*vitesse.y/masse;
+    }
+
+    public void ProdiguerAcceleration(){
+
+    }
+
+    public boolean EstEnMouvement(){
+
     }
 
 // AFFICHAGE -----------------------------------------------------------------------------------------------------
