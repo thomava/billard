@@ -1,6 +1,5 @@
-public class Disque{
+public abstract class Disque extends Element{
     
-    protected Vecteur centre; // Position du centre de la bille
     protected double rayon;// Rayon de la bille en centimètres
 
 
@@ -11,7 +10,7 @@ public class Disque{
 	/* fonction qui va permettre de construire notre objet en définissant son rayon et sa taille */
 	
 		// on construit un disque défini par son rayon et son centre
-		this.centre = centre;
+		this.position = centre;
 		this.rayon = rayon;
     }
 }

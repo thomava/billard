@@ -79,15 +79,15 @@ public class Bille extends Disque{
 		return res;
     }
 
-    public void actualiser(int dT){
+    public void actualiser(double dT){
     /* fonction qui va permettre d'afficher les informations liées à la bille */
 		//on calcule la nouvelle vitesse de la Bille
 		vitesse.x += dT*acceleration.x;
 		vitesse.y += dT*acceleration.y;
 
 		//on regarde la nouvelle position de la bille
-		super.centre.x += vitesse.x*dT;
-		super.centre.y += vitesse.y*dT;
+		super.position.x += vitesse.x*dT;
+		super.position.y += vitesse.y*dT;
 
     //On diminue l'acceleration pour le prochain déplacement
     DiminuerAcceleration();
@@ -96,7 +96,7 @@ public class Bille extends Disque{
 		public boolean EstEnContact(Element objet, Joueur joueurActif){
       /* fonction qui dit si la bille est en contact avec quelque chose : si c'est une autre bille,
       elle répond true, si la bille rencontre un trou, on fait tomber la bille et on retourne false */
-      Vecteur Distance = new Vecteur(Maths.abs(objet.centre.x-this.centre.x), Maths.abs(objet.centre.y-this.centre.y));
+      Vecteur Distance = new Vecteur(Math.abs(objet.position.x-this.position.x), Math.abs(objet.position.y-this.position.y));
       //On compare la distance entre les centre des deux billes à la longueur de deux rayons pour voir si les deux billes sont en Contact
       if(objet instanceof Bille){
         if(Distance.norme() <= 2*super.rayon){
@@ -117,8 +117,12 @@ public class Bille extends Disque{
       }
     }
 
-    public Contact Collision(){
+    public Contact testContact(Element e){
+        return e.recoitContact(this);
+    } 
 
+    public Contact recoitContact(Bille b){
+        
     }
 
     public Contact Tomber(Joueur joueurActif){
@@ -138,14 +142,15 @@ public class Bille extends Disque{
 
     }
 
-    public boolean EstEnMouvement(){
-
+    public boolean estEnMouvement(){
+        return false;
     }
 
 // AFFICHAGE -----------------------------------------------------------------------------------------------------
-  public void AfficherBille( Graphics g ){
-    int xPosition = (int)(centre.MetreVersPixels().x-super.rayon);
-    int yPosition = (int)(centre.MetreVersPixels().y-super.rayon);
+  @Override
+  public void peindreElement( Graphics g ){
+    int xPosition = (int)(position.MetreVersPixels().x-super.rayon);
+    int yPosition = (int)(position.MetreVersPixels().y-super.rayon);
     g.fillOval(xPosition, yPosition, (int)super.rayon, (int)super.rayon);
   }
 }
