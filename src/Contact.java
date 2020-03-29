@@ -1,20 +1,20 @@
 
-public class Contact{
+public class Contact implements Comparable<Contact>{
 
     private Bille e1;
     private Element e2;
     private Vecteur norm;
     private Vecteur tan;
+    private double profondeurContact;
 
-// CONSTRUCTEURS -----------------------------------------------------------------------------------------------------
-    public Contact(Bille _e1, Element _e2, Vecteur _norm){
+    public Contact(Bille _e1, Element _e2, Vecteur _norm, double _profondeurContact){
         e1 = _e1;
         e2 = _e2;
         norm = _norm;
         tan = norm.vecteurNormal();
+        profondeurContact = _profondeurContact;
     }
 
-// FONCTIONS -----------------------------------------------------------------------------------------------------
     public void faireContact(){
         double vitTan1 = tan.produitScalaire(e1.getVitesse());
         double vitTan2 = 0;
@@ -47,9 +47,10 @@ public class Contact{
             newVitNorm2 = 0;
             e1.setVitesse(norm.mul(newVitNorm1).add(tan.mul(vitTan1)));
         }
+    }
 
-
-
+    public int compareTo(Contact c){
+        return (int)(profondeurContact - c.profondeurContact);
     }
 
 }
