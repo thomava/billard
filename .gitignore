@@ -1,0 +1,4 @@
+*.class
+*.swp
+.Rhistory
+.project/*
