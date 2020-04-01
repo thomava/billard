@@ -1,6 +1,6 @@
 import java.awt.Color;
 
-public class Trou{
+public class Trou extends Element{
 
   protected Vecteur position;
   private double rayon;

@@ -1,5 +1,5 @@
 import java.awt.Graphics;
-public class Bille{
+public class Bille extends Element{
 
     protected Vecteur position;
     private double rayon;
