@@ -82,7 +82,10 @@ public class Bille extends Disque{
 
     // FONCTIONS De Test  ---------------------------------------------------
     public boolean EstEnMouvement(){
-      if(this.acceleration<0){
+      int vitesseStatique.norme() = 2.0;
+      if(this.vitesse.norme()< vitesseStatique){
+        this.vitesse = new Vecteur(0,0);
+        this.acceleration = new Vecteur(0,0);
         return false;
       }
       else{
@@ -133,7 +136,7 @@ public class Bille extends Disque{
     }
 
 // AFFICHAGE -----------------------------------------------------------------------------------------------------
-  public void AfficherBille( Graphics g ){
+  public void peindreElement( Graphics g ){
     int xPosition = (int)(centre.MetreVersPixels().x-super.rayon);
     int yPosition = (int)(centre.MetreVersPixels().y-super.rayon);
     g.fillOval(xPosition, yPosition, (int)super.rayon, (int)super.rayon);
