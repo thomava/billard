@@ -75,7 +75,7 @@ public class Bille extends Element{
   public boolean getTombe(){
 		return estTombe;
 	}
-  
+
 // FONCTIONS  -----------------------------------------------------------------------------------------------------
     public String toString(){
     /* fonction qui va permettre d'afficher les informations liées à la bille */
@@ -91,6 +91,8 @@ public class Bille extends Element{
 
     // FONCTIONS De Test  ---------------------------------------------------
     public boolean EstEnMouvement(){
+      /* fonction qui va permettre d'arréter une bille lorsque cette dernière à une vitesse trop faible et
+      qui va retourner true si on immobilise la bille */
       double vitesseStatique = 2.0;
       if(this.vitesse.norme()< vitesseStatique){
         this.vitesse = new Vecteur(0,0);
@@ -119,6 +121,7 @@ public class Bille extends Element{
     }
 
     private void DiminuerAcceleration(){
+      /* fonction qui diminue l'accéleration d'une bille selon sa vitesse et la visquosité que l'on définit*/
   		double visq =1.85*Math.pow(10,-8); // avec la viquosité dynamique en grammes par metre par secondes
   		double k = 6*Math.PI*rayon*visq;
   		acceleration.x=-k*vitesse.x/masse;
@@ -126,7 +129,7 @@ public class Bille extends Element{
     }
 
     // FONCTIONS De Gestion des Contacts  -----------------------------------
-  
+
     public Contact recoitContact(Bille Bille2){
       /* fonction qui dit si la bille est en contact avec une autre bille : si c'est une autre bille,
       elle répond true, si la bille rencontre un trou, on fait tomber la bille et on retourne false */
@@ -137,7 +140,7 @@ public class Bille extends Element{
       }
       return null;
     }
-  
+
     public void Tomber(Joueur joueurActif){
     /* fonction qui met a jour le statut de la bille : on fait tomber la bille */
       this.estTombe = true;
@@ -145,7 +148,7 @@ public class Bille extends Element{
     }
 
 // AFFICHAGE ----------------------------------------------------------------------------------------------------
-  
+
   public void peindreElement( Graphics g ){
     int xPosition = (int)(position.MetreVersPixels().x-rayon);
     int yPosition = (int)(position.MetreVersPixels().y-rayon);
