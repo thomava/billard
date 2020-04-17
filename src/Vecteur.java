@@ -30,6 +30,14 @@ public class Vecteur{
     }
 
     /**
+     * Calcule le vecteur normalisé de ce vecteur.
+     * @return Même vecteur à la norme 1.
+     */
+    public Vecteur normaliser(){
+        return mul(1/norme());
+    }
+
+    /**
      * Calcule le produit scalaire entre deux vecteurs.
      * @param vec Vecteur avec lequel est calculé le produit scalaire.
      * @return Produit scalaire : this . vec.

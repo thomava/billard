@@ -1,12 +1,14 @@
 import java.awt.Graphics;
+import java.awt.Color;
+
 public class Bille extends Element{
 
-    protected Vecteur position;
     private double rayon;
     private double masse; // Masse de la bille en grammes
     protected Vecteur vitesse; // Vecteur qui représente la vitesse en mètres par seconde
     protected Vecteur acceleration; // Vecteur qui représente la vitesse en mètres par seconde
-    private Equipe couleur; // indique a qui appartient la boule
+    private Equipe equipe; // indique a qui appartient la boule
+    protected Color couleur; // indique la couleur que prend la boule. Se déduit de la couleur de l'équipe.
 
     protected boolean estTombe; // indique si la boule est tombée dans un trou
     protected Joueur joueur; // le joueur qui a fait tomber cette boule, si elle n'est pas tombée, variable nulle
@@ -14,14 +16,18 @@ public class Bille extends Element{
 
 // CONSTRUCTEURS -----------------------------------------------------------------------------------------------------
 
-    public Bille(Vecteur position, Equipe couleur, double rayon, double masse){
+    public Bille(Vecteur position, Equipe equipe, double rayon, double masse){
 	/* fonction qui va permettre de construire notre objet en définissant son rayon et sa taille */
-
-		// la Bille est un Disque, on construit le disque auquel on ajoute une masse et une appartenance
 		this.position = position;
-    this.rayon = rayon;
+        this.rayon = rayon;
 		this.masse = masse;
-		this.couleur = couleur;
+		this.equipe = equipe;
+
+        if (equipe != null){
+            this.couleur = this.equipe.getColor();
+        }else{
+            this.couleur = Color.gray;
+        }
 
 		// la vitesse et l'accélération sont nuls quand on créé les Billes, elles seront modifiées en jeu
 		this.vitesse = new Vecteur(0,0);
@@ -32,6 +38,8 @@ public class Bille extends Element{
 		this.joueur = null;
     }
 
+    // TODO : simplifier le constructeur avec un super() qui appelle le
+    // constructeur au dessus.
     public Bille(Vecteur position, Equipe couleur){
 	/* fonction qui va permettre de construire notre objet avec une masse et un rayon pédéfini
 	qui sont amenés à ne pas varier d'un objet à un autre */
@@ -44,7 +52,7 @@ public class Bille extends Element{
 		double M = 200.0; // masse de 200 g
 		// on ajoute une masse et une appartenance
 		this.masse = M;
-		this.couleur = couleur;
+		this.equipe = equipe;
 
 		// la vitesse et l'accélération sont nuls quand on créé les Billes, elles seront modifiées en jeu
 		this.vitesse = new Vecteur(0,0);
@@ -63,6 +71,14 @@ public class Bille extends Element{
 	public Vecteur getVitesse(){
 		return this.vitesse;
 	}
+
+    public double getRayon(){
+        return this.rayon;
+    }
+
+    public double getMasse(){
+        return this.masse;
+    }
 
 	public void setAcceleration(Vecteur acceleration){
 		this.acceleration=acceleration;
@@ -90,7 +106,7 @@ public class Bille extends Element{
     }
 
     // FONCTIONS De Test  ---------------------------------------------------
-    public boolean EstEnMouvement(){
+    public boolean estEnMouvement(){
       /* fonction qui va permettre d'arréter une bille lorsque cette dernière à une vitesse trop faible et
       qui va retourner true si on immobilise la bille */
       double vitesseStatique = 2.0;
@@ -150,6 +166,7 @@ public class Bille extends Element{
 // AFFICHAGE ----------------------------------------------------------------------------------------------------
 
   public void peindreElement( Graphics g ){
+      g.setColor(couleur);
     int xPosition = (int)(position.MetreVersPixels().x-rayon);
     int yPosition = (int)(position.MetreVersPixels().y-rayon);
     g.fillOval(xPosition, yPosition, (int)rayon, (int)rayon);

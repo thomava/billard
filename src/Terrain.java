@@ -8,7 +8,10 @@ public class Terrain extends Element{
      */
     private Vecteur taille;
 
-    public Terrain(){}
+    public Terrain(Vecteur _taille){
+        this.taille = _taille; 
+    }
+
     
     /**
      * Méthode appelée par paint() de FenetreJeu pour peindre les différents
@@ -33,14 +36,14 @@ public class Terrain extends Element{
      */
     @Override
     public Contact recoitContact(Bille b){
-        if (b.position.y - b.rayon < 0)
-            return new Contact(b, this, new Vecteur(0, 1), b.rayon - b.position.y);
-        else if (b.position.y + b.rayon > taille.y)
-            return new Contact(b, this, new Vecteur(0, 1), b.rayon - taille.y + b.position.y);
-        else if (b.position.x - b.rayon < 0)
-            return new Contact(b, this, new Vecteur(1, 0), b.rayon - b.position.x);
-        else if (b.position.x + b.rayon > taille.x)
-            return new Contact(b, this, new Vecteur(1, 0), b.rayon - taille.x + b.position.x);
+        if (b.position.y - b.getRayon() < 0)
+            return new Contact(b, this, new Vecteur(0, 1), b.getRayon() - b.position.y);
+        else if (b.position.y + b.getRayon() > taille.y)
+            return new Contact(b, this, new Vecteur(0, 1), b.getRayon() - taille.y + b.position.y);
+        else if (b.position.x - b.getRayon() < 0)
+            return new Contact(b, this, new Vecteur(1, 0), b.getRayon() - b.position.x);
+        else if (b.position.x + b.getRayon() > taille.x)
+            return new Contact(b, this, new Vecteur(1, 0), b.getRayon() - taille.x + b.position.x);
         return null;
     }
 

@@ -8,9 +8,8 @@ public class FenetreJeu extends JFrame implements ActionListener {
 		private JTextField fenetreScore;
     private JTextField fenetreRegles;
     private JButton BoutonRegles;
-    private ArrayList<blablaJeu> Panneau;
 
-    public FenetreJeu(ArrayList<blablaJeu> Panneau){
+    public FenetreJeu(){
 
         this.setTitle("JEU DE BILLARD");
 		    this.setSize(1000,700);
@@ -53,7 +52,8 @@ public class FenetreJeu extends JFrame implements ActionListener {
     //Pour afficher les règles quand on appuie sur le bouton "Règles du jeu"
     public void actionPerformed (ActionEvent e){
         if (e.getSource()==BoutonRegles){
-            ReglesDuJeu.setVisible(true);
+            ReglesDuJeu reglesDuJeu = new ReglesDuJeu();
+            reglesDuJeu.setVisible(true);
         }
     }
 }

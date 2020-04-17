@@ -22,21 +22,38 @@ public class MoteurPhysique{
     /**
      * Gère la physique du tour actuel. La méthode quitte la boucle lorsque le
      * tour est considéré comme terminé. 
+     *
+     * Prend en paramètre le Tir. Puis simule le tour à partir de ce tir.
+     * @param tir Objet tir associée à la décision de tir du joueur. C'est à
+     * partir de cet objet Tir que tous les mouvements vont découler.
+     * @return Les informations importantes du tour. Présence de faute et la
+     * liste des billes qui sont tombées dans les poches (trou).
      */
-    public void executerTour(){
+    public DescriptionTour executerTour(Tir tir){
+        DescriptionTour desc = new DescriptionTour();
+        effectuerTir(tir);
         while(!tourEstTerminé()){
-            actualisation(0.1);
+            //TODO : determiner le temps réél entre chaque tour de boucle.
+            actualisation(1);
             traiterCollisions(determinerCollisions());
         }
+        return desc;
     }
 
+    /**
+     * TODO
+     * Gère le tir et donne la vitesse initale à la bille blanche.
+     */
+    public void effectuerTir(Tir tir){
+        
+    }
 
     /**
      * Appelle la méthode actualiser() pour toutes les billes. Cela permet
      * d'actualiser la cinématique des billes.
      * @param dt temps en seconde depuis la dernière actualisation.
      */
-    public void actualisation(double dt){
+    public void actualisation(int dt){
         for (Element e : listeElements)
             if (e instanceof Bille)
                 ((Bille) e).actualiser(dt);
@@ -58,7 +75,7 @@ public class MoteurPhysique{
                 Bille eb = (Bille) e;
                 if (eb.estEnMouvement()){
                     for (Element et : listeElements){
-                        Contact c = eb.testContact(et);
+                        Contact c = et.recoitContact(eb);
                         if (c != null)
                             listeContacts.add(c);
                     }

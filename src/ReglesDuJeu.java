@@ -3,9 +3,10 @@ import java.awt.*;
 
 public class ReglesDuJeu extends JFrame{
 
+    private JTextField Regles;
+
     public ReglesDuJeu(){
 
-        private JTextField Regles;
 
         this.setTitle("REGLES DU JEU");
 				this.setSize(1000,700);
