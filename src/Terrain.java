@@ -20,7 +20,9 @@ public class Terrain extends Element{
      */
     @Override
     public void peindreElement(Graphics g){
-        g.setColor(Color.darkGray);
+        g.setColor(new Color(85,35,0));
+        g.fillRect(-25,-25, (int)(taille.x + 50), (int)(taille.y + 50));
+        g.setColor(new Color(0,80,0));
         g.fillRect(0,
                    0,
                    (int)taille.x,
@@ -36,6 +38,7 @@ public class Terrain extends Element{
      */
     @Override
     public Contact recoitContact(Bille b){
+        //TODO : pourquoi - 25 ?????
         if (b.position.y - b.getRayon() < 0)
             return new Contact(b, this, new Vecteur(0, 1), b.getRayon() - b.position.y);
         else if (b.position.y + b.getRayon() > taille.y)

@@ -5,9 +5,11 @@ public class Joueur{
 
 // CONSTRUCTEURS -----------------------------------------------------------------------------------------------------
 
-    public Joueur(String nom, Equipe equipe){
-
+    public Joueur(String nom){
 		this.nom = nom;
-		this.equipe = equipe;
+    }
+
+    public void setEquipe(Equipe e){
+        equipe = e;
     }
 }

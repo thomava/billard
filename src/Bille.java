@@ -64,6 +64,15 @@ public class Bille extends Element{
     }
 
 // GET et SET -----------------------------------------------------------------------------------------------------
+
+    public void setPosition(Vecteur position){
+		this.position=position;
+	}
+
+	public Vecteur getPosition(){
+		return this.position;
+	}
+
 	public void setVitesse(Vecteur vitesse){
 		this.vitesse=vitesse;
 	}
@@ -74,6 +83,10 @@ public class Bille extends Element{
 
     public double getRayon(){
         return this.rayon;
+    }
+
+    public Equipe getEquipe(){
+        return this.equipe;
     }
 
     public double getMasse(){
@@ -100,7 +113,7 @@ public class Bille extends Element{
 			res += "; " + joueur+ " à fait tomber la bille.";
 		}
 		else{
-			res+= " ayant une vitesse de " + vitesse + " et une accélération de " + acceleration + "." ;
+			res+= "position : "+ position +" | vitesse : " + vitesse + " | accélération : " + acceleration + "." ;
 		}
 		return res;
     }
@@ -122,7 +135,7 @@ public class Bille extends Element{
 
     // FONCTIONS De gestion Automatique de la Vitesse  ----------------------
 
-    public void actualiser(int dT){
+    public void actualiser(double dT){
     /* fonction qui va permettre d'afficher les informations liées à la bille */
 		//on calcule la nouvelle vitesse de la Bille
 		vitesse.x += dT*acceleration.x;
@@ -138,7 +151,8 @@ public class Bille extends Element{
 
     private void DiminuerAcceleration(){
       /* fonction qui diminue l'accéleration d'une bille selon sa vitesse et la visquosité que l'on définit*/
-  		double visq =1.85*Math.pow(10,-8); // avec la viquosité dynamique en grammes par metre par secondes
+  		//double visq =1.85*Math.pow(10,-8); // avec la viquosité dynamique en grammes par metre par secondes
+        double visq = 2;
   		double k = 6*Math.PI*rayon*visq;
   		acceleration.x=-k*vitesse.x/masse;
   		acceleration.y=-k*vitesse.y/masse;
@@ -149,26 +163,27 @@ public class Bille extends Element{
     public Contact recoitContact(Bille Bille2){
       /* fonction qui dit si la bille est en contact avec une autre bille : si c'est une autre bille,
       elle répond true, si la bille rencontre un trou, on fait tomber la bille et on retourne false */
-      Vecteur Distance = new Vecteur(Math.abs(Bille2.position.x-this.position.x), Math.abs(Bille2.position.y-this.position.y));
+      Vecteur distance = new Vecteur(Bille2.position.x-this.position.x, Bille2.position.y-this.position.y);
       //On compare la distance entre les position des deux billes à la longueur de deux rayons pour voir si les deux billes sont en Contact
-      if(Distance.norme() <= 2*rayon){
-        return new Contact(Bille2, this, Distance.normaliser(), 2*rayon-Distance.norme());
+      if(distance.norme() <= 2*rayon){
+        return new Contact(this, Bille2, distance.normaliser(), 2*rayon-distance.norme());
       }
       return null;
     }
 
-    public void Tomber(Joueur joueurActif){
+    public void tomber(){
     /* fonction qui met a jour le statut de la bille : on fait tomber la bille */
       this.estTombe = true;
-      this.joueur = joueurActif;
     }
 
 // AFFICHAGE ----------------------------------------------------------------------------------------------------
 
   public void peindreElement( Graphics g ){
       g.setColor(couleur);
-    int xPosition = (int)(position.MetreVersPixels().x-rayon);
-    int yPosition = (int)(position.MetreVersPixels().y-rayon);
-    g.fillOval(xPosition, yPosition, (int)rayon, (int)rayon);
+    //int xPosition = (int)(position.MetreVersPixels().x-rayon);
+    //int yPosition = (int)(position.MetreVersPixels().y-rayon);
+    int xPosition = (int)(position.x - rayon);
+    int yPosition = (int)(position.y - rayon);
+    g.fillOval(xPosition, yPosition, 2*(int)rayon, 2*(int)rayon);
   }
 }

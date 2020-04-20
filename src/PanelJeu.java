@@ -1,6 +1,8 @@
 import java.awt.event.*;
 import java.awt.Graphics;
 import javax.swing.JPanel;
+import java.util.ArrayList;
+import java.awt.Color;
 
 /*
  * TODO : Retirer l'accès à Plateau en attribut. Cela donne trop de pouvoir à
@@ -10,16 +12,42 @@ import javax.swing.JPanel;
 public class PanelJeu extends JPanel implements MouseMotionListener, MouseListener {
     private BilleBlanche billeBlanche;
     private Tir tirJoue;
+    private ArrayList<Element> listeElements;
+    private Terrain terrain;
 
-	public PanelJeu(BilleBlanche _billeBlanche) {
+    private int translate = 25;
 
-        addMouseListener( this );
+    private int xS, yS;
+
+	public PanelJeu(ArrayList<Element> _listeElements, 
+                    Terrain _terrain,
+                    BilleBlanche _billeBlanche) {
+        addMouseListener(this);
+        addMouseMotionListener(this);
         billeBlanche = _billeBlanche;
+        listeElements = _listeElements;
+        terrain = _terrain;
 	}
+
+    public void paint(Graphics g){
+        g.translate(translate,translate);
+        terrain.peindreElement(g);
+        for (Element e : listeElements){
+            e.peindreElement(g);
+        }
+        
+        if (tirJoue==null){
+            g.setColor(Color.blue);
+            g.drawLine(xS, yS, (int)billeBlanche.position.x, (int)billeBlanche.position.y);
+        }
+
+    }
 
 //Quand le joueur doit choisir son tire, on affiche le vecteur quand il bouge
 	public void mouseMoved(MouseEvent e) {
     if(tirJoue==null){
+        xS = e.getX() - translate;
+        yS = e.getY() - translate;
         repaint();
         }
     }
@@ -48,13 +76,14 @@ public class PanelJeu extends JPanel implements MouseMotionListener, MouseListen
 
   public void mousePressed(MouseEvent e) {
       if(tirJoue==null){
-          tirJoue = new Tir( e.getX(),e.getY(), billeBlanche);
+          tirJoue = new Tir( e.getX()-translate,e.getY()-translate, billeBlanche);
       }
 	}
 
 
   public Tir attendreTir() {
       tirJoue=null;
+      repaint();
       while(tirJoue==null){
           try{
               // Permet au processeur de prendre un peu de répit et de ne pas

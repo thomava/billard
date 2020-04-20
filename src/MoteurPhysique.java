@@ -3,8 +3,15 @@ import java.util.Collections;
 
 public class MoteurPhysique{
 
-    public ArrayList<Element> listeElements;
+    private ArrayList<Element> listeElements;
+    private BilleBlanche bb; 
+    private PanelJeu panelJeu;
     
+    public MoteurPhysique(PanelJeu _panelJeu, BilleBlanche _bb, ArrayList<Element> _listeElements){
+        listeElements = _listeElements;
+        bb = _bb;
+        panelJeu = _panelJeu;
+    }
     /**
      * Determine si le tour est terminé. Le tour est terminé lorsque toutes les
      * billes ont une vitesse inférieure à une vitesse de référence.
@@ -26,18 +33,25 @@ public class MoteurPhysique{
      * Prend en paramètre le Tir. Puis simule le tour à partir de ce tir.
      * @param tir Objet tir associée à la décision de tir du joueur. C'est à
      * partir de cet objet Tir que tous les mouvements vont découler.
-     * @return Les informations importantes du tour. Présence de faute et la
+     * @param desc Les informations importantes du tour. Présence de faute et la
      * liste des billes qui sont tombées dans les poches (trou).
      */
-    public DescriptionTour executerTour(Tir tir){
-        DescriptionTour desc = new DescriptionTour();
+    public void executerTour(DescriptionTour desc, Tir tir){
         effectuerTir(tir);
+        long oldTime = System.currentTimeMillis();
         while(!tourEstTerminé()){
-            //TODO : determiner le temps réél entre chaque tour de boucle.
-            actualisation(1);
-            traiterCollisions(determinerCollisions());
+            long time = System.currentTimeMillis();
+            actualisation((double)(time - oldTime)/1000.0);
+            oldTime = time;
+            traiterCollisions(desc, determinerCollisions());
+            panelJeu.repaint();
+
+            try{
+                Thread.sleep(1);
+            }catch(InterruptedException e) {}
+           
         }
-        return desc;
+        System.out.println("tour terminé");
     }
 
     /**
@@ -45,7 +59,7 @@ public class MoteurPhysique{
      * Gère le tir et donne la vitesse initale à la bille blanche.
      */
     public void effectuerTir(Tir tir){
-        
+       bb.setVitesse(tir.getVitesse().mul(4)); 
     }
 
     /**
@@ -53,7 +67,7 @@ public class MoteurPhysique{
      * d'actualiser la cinématique des billes.
      * @param dt temps en seconde depuis la dernière actualisation.
      */
-    public void actualisation(int dt){
+    public void actualisation(double dt){
         for (Element e : listeElements)
             if (e instanceof Bille)
                 ((Bille) e).actualiser(dt);
@@ -75,9 +89,12 @@ public class MoteurPhysique{
                 Bille eb = (Bille) e;
                 if (eb.estEnMouvement()){
                     for (Element et : listeElements){
-                        Contact c = et.recoitContact(eb);
-                        if (c != null)
-                            listeContacts.add(c);
+                        if (et != eb)
+                        {
+                            Contact c = et.recoitContact(eb);
+                            if (c != null)
+                                listeContacts.add(c);
+                        }
                     }
                 }
             }
@@ -92,12 +109,27 @@ public class MoteurPhysique{
      * l'objet Contact implémente l'interface Comparable. L'ordre est
      * important, si une bille est considérée comme en contact avec deux autres
      * billes alors il faut traiter le contact le plus profond en premier.
+     * @param desc DescriptionTour pour ajouter les billes tombées.
      * @param listeContacts Les contacts qu'il faut traiter.
      */ 
-    public void traiterCollisions(ArrayList<Contact> listeContacts){
+    public void traiterCollisions(DescriptionTour desc, ArrayList<Contact> listeContacts){
         Collections.sort(listeContacts);
-        for (Contact c : listeContacts)
-            c.faireContact();
+
+        ArrayList<Contact> listeContactsNoDup = new ArrayList<Contact>(listeContacts.size());
+
+        for (Contact c : listeContacts){
+            if (!listeContactsNoDup.contains(c)){
+                listeContactsNoDup.add(c);
+            }
+        }
+
+        for (Contact c : listeContacts){
+            //faireContact retourne la bille si elle est tombée dans une poche.
+            Bille b = c.faireContact();
+            if (b != null){
+                desc.addBilleTombée(b); 
+            }
+        }
 
     }
 

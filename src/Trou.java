@@ -21,10 +21,9 @@ public class Trou extends Element{
 
     //On compare la distance entre les centre des deux billes à la longueur de deux rayons pour voir si les deux billes sont en Contact
     if(dist <= rayon){
-        //La profondeur de contact est directement mise à 0. En effet, elle n'a
-        //pas d'utilité dans le cas d'un contact entre une bille et un trou.
-        //De même pour le vecteur normal au contact.
-      return new Contact(bille, this, null, 0);
+        //Le vecteur normal n'est pas calculé/spécifié. Il ne sert à rien dans
+        //la cas d'un contact avec un Trou.
+        return new Contact(bille, this, null, rayon - dist);
     }
     return null;
   }

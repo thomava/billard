@@ -11,20 +11,50 @@ public class Plateau{
 
     // TODO : Vérifier que les attributs ne sont pas null.
     private Equipe[] listeEquipes;
-    private Element[] listeElements;
     private ArrayList<Bille> listeBillesTombées;
     private int equipeActuelle;
     private boolean faute;
     private PanelJeu panelJeu;
     private MoteurPhysique moteurPhy;
 
+
+    private ArrayList<Element> listeElements;
+    private BilleBlanche bb;
+    private BilleNoire bn;
+    private Terrain tr;
+
     private Joueur joueurActuel;
 
     public Plateau(Equipe[] _listeEquipes){
         listeEquipes = _listeEquipes;
         
+        listeElements = genererElements();
+        panelJeu = new PanelJeu(listeElements, tr, bb);
+        FenetreJeu fj = new FenetreJeu(panelJeu);
 
-        // TODO : MÉTHODE POUR GENERER LES ELEMENTS.
+        listeBillesTombées = new ArrayList<Bille>();
+
+        moteurPhy = new MoteurPhysique(panelJeu, bb, listeElements);
+    }
+
+
+    public ArrayList<Element> genererElements(){
+        ArrayList<Element> elementArray = new ArrayList<Element>();
+        bb = new BilleBlanche(new Vecteur(600,200), 13, 200);
+        tr = new Terrain(new Vecteur(750,450));
+        elementArray.add(tr);
+        elementArray.add(bb);
+
+
+        for (int i = 0; i<5 ; i++){
+            for (int j = 0 ; j<5-i ; j++){
+                Bille b = new Bille(new Vecteur(100+24*j,150+28*i+14*j),listeEquipes[0],13,200);
+                elementArray.add(b);
+            }
+        }
+
+
+        return elementArray;
     }
 
     /**
@@ -45,7 +75,8 @@ public class Plateau{
         while(!partieTerminée()){
             Tir tir = panelJeu.attendreTir();
 
-            DescriptionTour desc = moteurPhy.executerTour(tir);
+            DescriptionTour desc = new DescriptionTour(faute, joueurActuel);
+            moteurPhy.executerTour(desc, tir);
             // TODO : Lancer le moteur physique à partir des paramètre de tir
             // récuprer la méthode au dessus. Cette méthode est blocante. Elle
             // retourne le controle à plateau quand toutes les billes sont
@@ -53,7 +84,10 @@ public class Plateau{
             // retourne les informations importantes sur le tour : présence de
             // faute, billes qui sont tombées.
 
-            finDeTour(desc); 
+            boolean peutRejouer = finDeTour(desc); 
+            if (!peutRejouer){
+               prochainJoueur(); 
+            }
         }
     }
 
@@ -76,10 +110,12 @@ public class Plateau{
      * premier) et le changement du score.
      * @param desc - Description du tour qui contient deux attributs :
      * fauteCommise (boolean) et billesTombéesTour (ArrayList Bille).
+     * @return True si le joueur peut rejouer. Si il a rentré une bille.
      */
-    public void finDeTour(DescriptionTour desc){
+    public boolean finDeTour(DescriptionTour desc){
         this.faute = desc.fauteCommise; 
-        this.listeBillesTombées.addAll(desc.billesTombéesTour); 
+        this.listeBillesTombées.addAll(desc.getListeBillesTombées()); 
+        return (desc.peutRejouer());
     }
 
     /**

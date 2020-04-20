@@ -81,4 +81,9 @@ public class Vecteur{
       return mul(a);
     }
 
+    @Override
+    public String toString(){
+        return "("+this.x+","+this.y+")";
+    }
+
 }

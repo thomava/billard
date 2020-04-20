@@ -8,8 +8,9 @@ public class FenetreJeu extends JFrame implements ActionListener {
 		private JTextField fenetreScore;
     private JTextField fenetreRegles;
     private JButton BoutonRegles;
+    private PanelJeu panelJeu;
 
-    public FenetreJeu(){
+    public FenetreJeu(PanelJeu _panelJeu){
 
         this.setTitle("JEU DE BILLARD");
 		    this.setSize(1000,700);
@@ -44,6 +45,11 @@ public class FenetreJeu extends JFrame implements ActionListener {
 		    panneauGeneral.add(panneauScore);
         panneauGeneral.add(BoutonRegles);
         panneauGeneral.add(panneauBilles);
+
+        panelJeu = _panelJeu; 
+        panelJeu.setBounds(100,100,800,500);
+        panelJeu.setLayout(null);
+        panneauGeneral.add(panelJeu);
 
         this.add(panneauGeneral);
         this.setVisible(true);

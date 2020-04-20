@@ -1,15 +1,22 @@
 import java.awt.Color;
+import java.util.ArrayList;
 public class Equipe{
 
     private Color col;
 
     private int joueurActuel;
-    private Joueur[] listeJoueurs;
+    private ArrayList<Joueur> listeJoueurs;
 
 // CONSTRUCTEURS ----------------------------------------------------
 
     public Equipe(Color _col){
         col = _col;
+        listeJoueurs = new ArrayList<Joueur>();
+    }
+
+    public void addJoueur(Joueur j){
+        listeJoueurs.add(j);
+        j.setEquipe(this);
     }
 
     public Color getColor(){
@@ -22,10 +29,10 @@ public class Equipe{
      */
     public Joueur prochainJoueur(){ 
         joueurActuel++;
-        if (joueurActuel >= listeJoueurs.length)
+        if (joueurActuel >= listeJoueurs.size())
             joueurActuel = 0;
 
-        return listeJoueurs[joueurActuel];
+        return listeJoueurs.get(joueurActuel);
     }
 
 }
