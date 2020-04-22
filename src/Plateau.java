@@ -27,7 +27,7 @@ public class Plateau{
 
     public Plateau(Equipe[] _listeEquipes){
         listeEquipes = _listeEquipes;
-        
+
         listeElements = genererElements();
         panelJeu = new PanelJeu(listeElements, tr, bb);
         FenetreJeu fj = new FenetreJeu(panelJeu);
@@ -64,7 +64,7 @@ public class Plateau{
         equipeActuelle++;
         if (equipeActuelle >= listeEquipes.length)
             equipeActuelle=0;
-        
+
         joueurActuel = listeEquipes[equipeActuelle].prochainJoueur();
     }
 
@@ -84,9 +84,9 @@ public class Plateau{
             // retourne les informations importantes sur le tour : présence de
             // faute, billes qui sont tombées.
 
-            boolean peutRejouer = finDeTour(desc); 
+            boolean peutRejouer = finDeTour(desc);
             if (!peutRejouer){
-               prochainJoueur(); 
+               prochainJoueur();
             }
         }
     }
@@ -96,12 +96,12 @@ public class Plateau{
      * @return True si la partie est terminée.
      */
     public boolean partieTerminée(){
-       // TODO : La méthode 
+       // TODO : La méthode
         return false;
     }
 
 
-    /** 
+    /**
      * Méthode appelée quand toutes les billes sont immobiles par
      * MoteurPhysique.
      *
@@ -113,17 +113,27 @@ public class Plateau{
      * @return True si le joueur peut rejouer. Si il a rentré une bille.
      */
     public boolean finDeTour(DescriptionTour desc){
-        this.faute = desc.fauteCommise; 
-        this.listeBillesTombées.addAll(desc.getListeBillesTombées()); 
+        this.faute = desc.fauteCommise;
+        this.listeBillesTombées.addAll(desc.getListeBillesTombées());
         return (desc.peutRejouer());
     }
 
     /**
      * Méthode qui retourne le joueur associé au tour actuel.
-     * @return Joueur - le joueur du tour actuel. 
+     * @return Joueur - le joueur du tour actuel.
      */
     public Joueur getJoueurActuel(){
         return joueurActuel;
+    }
+
+    public int nombreBillesTombees(Equipe equipeBille){
+        int c = 0;
+        for( Bille b : listeBillesTombées){
+            if(b.getEquipe() == equipeBille){
+                c += 1;
+            }
+        }
+        return c;
     }
 
 }
