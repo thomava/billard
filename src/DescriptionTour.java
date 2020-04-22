@@ -34,13 +34,8 @@ public class DescriptionTour{
         }
     }
 
-    public void (Bille b){
-        billesTombéesTour.add(b);
-        if (b.getEquipe() == joueurActuel.equipe)
-            peutRejouer = true;
-    }
-
     public boolean peutRejouer(){
+        Faute();
         return ((fauteTourAvant || peutRejouer) && !fauteCommise);
     }
 
