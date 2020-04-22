@@ -126,6 +126,11 @@ public class Plateau{
         return joueurActuel;
     }
 
+    /**
+     * Méthode qui retourne le nombre de billes d'une équipe qui sont tombées.
+     * @param equipeBille - équipe dont on veut savoir le nombre de billes qui sont tombées.
+     * @return int - nombre de billes tombées de cette équpe.
+     */
     public int nombreBillesTombees(Equipe equipeBille){
         int c = 0;
         for( Bille b : listeBillesTombées){

@@ -16,8 +16,11 @@ public class Bille extends Element{
 
 // CONSTRUCTEURS -----------------------------------------------------------------------------------------------------
 
+    /**
+    * fonction qui va permettre de construire notre objet en définissant son rayon et sa taille
+    */
+
     public Bille(Vecteur position, Equipe equipe, double rayon, double masse){
-	/* fonction qui va permettre de construire notre objet en définissant son rayon et sa taille */
 		this.position = position;
         this.rayon = rayon;
 		this.masse = masse;
@@ -40,10 +43,12 @@ public class Bille extends Element{
 
     // TODO : simplifier le constructeur avec un super() qui appelle le
     // constructeur au dessus.
-    public Bille(Vecteur position, Equipe couleur){
-	/* fonction qui va permettre de construire notre objet avec une masse et un rayon pédéfini
-	qui sont amenés à ne pas varier d'un objet à un autre */
 
+    /**
+    * fonction qui va permettre de construire notre objet avec une masse et un rayon pédéfini
+  	* qui sont amenés à ne pas varier d'un objet à un autre
+    */
+    public Bille(Vecteur position, Equipe couleur){
 		// la Bille est un Disque, on construit le disque
     this.position = position;
     double rayon = 10.0;
@@ -106,8 +111,12 @@ public class Bille extends Element{
 	}
 
 // FONCTIONS  -----------------------------------------------------------------------------------------------------
+
+    /**
+    * fonction qui va permettre d'afficher les informations liées à la bille
+    * @return chaine de carractères contenant les informations sur la bille.
+    */
     public String toString(){
-    /* fonction qui va permettre d'afficher les informations liées à la bille */
 		String res = super.toString() + "billle de "+ couleur + "; de masse " + masse;
 		if (estTombe == true){
 			res += "; " + joueur+ " à fait tomber la bille.";
@@ -119,13 +128,20 @@ public class Bille extends Element{
     }
 
     // FONCTIONS De Test  ---------------------------------------------------
+
+    /**
+    * Méthode qui va permettre d'arréter une bille lorsque cette dernière à une vitesse trop faible et
+    * qui va retourner true si on immobilise la bille. Elle signale par un booléen qu'elle vient d'arréter la bille.
+    * @return true si la bille est en mouvement, false sinon.
+    */
     public boolean estEnMouvement(){
-      /* fonction qui va permettre d'arréter une bille lorsque cette dernière à une vitesse trop faible et
-      qui va retourner true si on immobilise la bille */
+      // la vitesseStatique correspond à la vitesse à partir de laquelle on considère que la bille est immobile
       double vitesseStatique = 2.0;
+      // si la bille va plus lentement que cette vitesse, on l'arête manuellement
       if(this.vitesse.norme()< vitesseStatique){
         this.vitesse = new Vecteur(0,0);
         this.acceleration = new Vecteur(0,0);
+        //quand on arrête la bille, on retourne vrai
         return false;
       }
       else{
@@ -135,8 +151,10 @@ public class Bille extends Element{
 
     // FONCTIONS De gestion Automatique de la Vitesse  ----------------------
 
+    /**
+    * Méthode qui diminue l'accéleration d'une bille selon sa vitesse et la visquosité que l'on définit
+    */
     public void actualiser(double dT){
-    /* fonction qui va permettre d'afficher les informations liées à la bille */
 		//on calcule la nouvelle vitesse de la Bille
 		vitesse.x += dT*acceleration.x;
 		vitesse.y += dT*acceleration.y;
@@ -149,8 +167,10 @@ public class Bille extends Element{
     DiminuerAcceleration();
     }
 
+    /**
+    * Méthode qui diminue l'accéleration d'une bille selon sa vitesse et la visquosité que l'on définit
+    */
     private void DiminuerAcceleration(){
-      /* fonction qui diminue l'accéleration d'une bille selon sa vitesse et la visquosité que l'on définit*/
   		//double visq =1.85*Math.pow(10,-8); // avec la viquosité dynamique en grammes par metre par secondes
         double visq = 2;
   		double k = 6*Math.PI*rayon*visq;
@@ -160,24 +180,33 @@ public class Bille extends Element{
 
     // FONCTIONS De Gestion des Contacts  -----------------------------------
 
+    /**
+     * Méthode appelée par une paire de billes qui va générer un contact entre ces deux billes
+     * si elles sont en contact ou qui ne va rien renvoyer si elles ne se touchent pas.
+     * @param Bille2 - la deuxième bille avec laquelle on teste le contact de la première bille.
+     * @return Contact si il y a un contact entre ces deux billes, rien sinon.
+     */
     public Contact recoitContact(Bille Bille2){
-      /* fonction qui dit si la bille est en contact avec une autre bille : si c'est une autre bille,
-      elle répond true, si la bille rencontre un trou, on fait tomber la bille et on retourne false */
       Vecteur distance = new Vecteur(Bille2.position.x-this.position.x, Bille2.position.y-this.position.y);
-      //On compare la distance entre les position des deux billes à la longueur de deux rayons pour voir si les deux billes sont en Contact
+      //On compare la distance entre les centre des deux billes à la longueur de deux rayons pour voir si les deux billes sont en contact
       if(distance.norme() <= 2*rayon){
         return new Contact(this, Bille2, distance.normaliser(), 2*rayon-distance.norme());
       }
       return null;
     }
 
+     /**
+     * Méthode qui met à jour le statut de la bille quand elle est tombée.
+     */
     public void tomber(){
-    /* fonction qui met a jour le statut de la bille : on fait tomber la bille */
       this.estTombe = true;
     }
 
 // AFFICHAGE ----------------------------------------------------------------------------------------------------
 
+  /**
+  * Méthode génère l'affichage d'une bille
+  */
   public void peindreElement( Graphics g ){
       g.setColor(couleur);
     //int xPosition = (int)(position.MetreVersPixels().x-rayon);
