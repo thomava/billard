@@ -26,7 +26,16 @@ public class DescriptionTour{
         return billesTombéesTour;
     }
 
+    public void Faute(){
+        for( Bille b : billesTombéesTour ){
+          if (b.getEquipe() != joueurActuel.equipe){
+            fauteCommise = true;
+          }
+        }
+    }
+
     public boolean peutRejouer(){
+        Faute();
         return ((fauteTourAvant || peutRejouer) && !fauteCommise);
     }
 

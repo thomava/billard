@@ -5,7 +5,7 @@ public class Contact implements Comparable<Contact>{
     private Element e2;
     private Vecteur norm;
     private Vecteur tan;
-    private double profondeurContact;
+    private double profondeurContact; //distance "d'enfoncement" d'une bille dans l'autre
 
     // _norm est le vecteur unitaire orienté de e1 vers e2.
     public Contact(Bille _e1, Element _e2, Vecteur _norm, double _profondeurContact){
@@ -35,7 +35,7 @@ public class Contact implements Comparable<Contact>{
         if (e2 instanceof Bille){
             Bille b2 = (Bille) e2;
             vitTan2 = tan.produitScalaire(b2.getVitesse());
-     
+
             vitNorm2 = norm.produitScalaire(b2.getVitesse());
 
             double masseFactor11 = (e1.getMasse() - b2.getMasse()) / (e1.getMasse() + b2.getMasse());
@@ -43,8 +43,8 @@ public class Contact implements Comparable<Contact>{
             double masseFactor21 = 2 * e1.getMasse() / (e1.getMasse() + b2.getMasse());
             double masseFactor22 = -masseFactor11;
 
-            newVitNorm1 = masseFactor11 * vitNorm1 + masseFactor12 * vitNorm2; 
-            newVitNorm2 = masseFactor21 * vitNorm1 + masseFactor22 * vitNorm2; 
+            newVitNorm1 = masseFactor11 * vitNorm1 + masseFactor12 * vitNorm2;
+            newVitNorm2 = masseFactor21 * vitNorm1 + masseFactor22 * vitNorm2;
 
             e1.setVitesse(norm.mul(newVitNorm1).add(tan.mul(vitTan1)));
             b2.setVitesse(norm.mul(newVitNorm2).add(tan.mul(vitTan2)));
@@ -54,7 +54,7 @@ public class Contact implements Comparable<Contact>{
             e1.setPosition(e1.getPosition().add(norm.mul(-(profondeurContact/2 + 0.5))));
             b2.setPosition(b2.getPosition().add(norm.mul(+(profondeurContact/2 + 0.5))));
         }else if (e2 instanceof Terrain){
-            newVitNorm1 = - vitNorm1; 
+            newVitNorm1 = - vitNorm1;
             newVitNorm2 = 0;
             e1.setVitesse(norm.mul(newVitNorm1).add(tan.mul(vitTan1)));
         }else{
@@ -77,7 +77,7 @@ public class Contact implements Comparable<Contact>{
         if ((this.e1 == c.e1 && this.e2 == c.e2) ||
             (this.e1 == c.e2 && this.e2 == c.e1))
             return true;
-        
+
         return false;
     }
 
