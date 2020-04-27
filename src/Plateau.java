@@ -49,14 +49,6 @@ public class Plateau{
         elementArray.add(tr);
         elementArray.add(bb);
 
-
-        // génération des billes sur le terrain
-        for (int i = 0; i<5 ; i++){
-            for (int j = 0 ; j<5-i ; j++){
-                Bille b = new Bille(new Vecteur(100+24*j,150+28*i+14*j),listeEquipes[0],rayonBille,200);
-                elementArray.add(b);
-            }
-        }
         // génération des trous du terrain
         for (int i = 0; i<3 ; i++){
               double positionXtrou = rayonTrou+i*(diagonaleTerrain.x-2*rayonTrou)/2;
@@ -64,6 +56,14 @@ public class Plateau{
               Trou bas = new Trou(new Vecteur(positionXtrou,diagonaleTerrain.y-rayonTrou),rayonTrou);
               elementArray.add(haut);
               elementArray.add(bas);
+        }
+        
+        // génération des billes sur le terrain
+        for (int i = 0; i<5 ; i++){
+            for (int j = 0 ; j<5-i ; j++){
+                Bille b = new Bille(new Vecteur(100+24*j,150+28*i+14*j),listeEquipes[0],rayonBille,200);
+                elementArray.add(b);
+            }
         }
 
         return elementArray;
