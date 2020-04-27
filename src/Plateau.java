@@ -39,20 +39,32 @@ public class Plateau{
 
 
     public ArrayList<Element> genererElements(){
+        Vecteur diagonaleTerrain = new Vecteur(750,450);
         ArrayList<Element> elementArray = new ArrayList<Element>();
-        bb = new BilleBlanche(new Vecteur(600,200), 13, 200);
-        tr = new Terrain(new Vecteur(750,450));
+        double rayonBille = 13;
+        double rayonTrou = 18;
+
+        bb = new BilleBlanche(new Vecteur(600,200), rayonBille, 200);
+        tr = new Terrain(diagonaleTerrain);
         elementArray.add(tr);
         elementArray.add(bb);
 
 
+        // génération des billes sur le terrain
         for (int i = 0; i<5 ; i++){
             for (int j = 0 ; j<5-i ; j++){
-                Bille b = new Bille(new Vecteur(100+24*j,150+28*i+14*j),listeEquipes[0],13,200);
+                Bille b = new Bille(new Vecteur(100+24*j,150+28*i+14*j),listeEquipes[0],rayonBille,200);
                 elementArray.add(b);
             }
         }
-
+        // génération des trous du terrain
+        for (int i = 0; i<3 ; i++){
+              double positionXtrou = rayonTrou+i*(diagonaleTerrain.x-2*rayonTrou)/2;
+              Trou haut = new Trou(new Vecteur(positionXtrou,rayonTrou),rayonTrou);
+              Trou bas = new Trou(new Vecteur(positionXtrou,diagonaleTerrain.y-rayonTrou),rayonTrou);
+              elementArray.add(haut);
+              elementArray.add(bas);
+        }
 
         return elementArray;
     }
