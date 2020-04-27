@@ -6,6 +6,7 @@
  */
 
 import java.util.ArrayList;
+import java.awt.Color;
 
 public class Plateau{
 
@@ -46,9 +47,15 @@ public class Plateau{
         elementArray.add(bb);
 
 
+        BilleCouleur cr = new BilleCouleur(Color.red);
+        BilleCouleur cj = new BilleCouleur(Color.yellow);
         for (int i = 0; i<5 ; i++){
             for (int j = 0 ; j<5-i ; j++){
-                Bille b = new Bille(new Vecteur(100+24*j,150+28*i+14*j),listeEquipes[0],13,200);
+                Bille b = new Bille(new Vecteur(100+24*j,150+28*i+14*j),
+                                    cr,
+                                    13,
+                                    200);
+
                 elementArray.add(b);
             }
         }
