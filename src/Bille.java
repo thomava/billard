@@ -34,31 +34,12 @@ public class Bille extends Element{
 		this.joueur = null;
     }
 
-    // TODO : simplifier le constructeur avec un super() qui appelle le
-    // constructeur au dessus.
-
     /**
     * fonction qui va permettre de construire notre objet avec une masse et un rayon pédéfini
   	* qui sont amenés à ne pas varier d'un objet à un autre
     */
-    public Bille(Vecteur position, Equipe couleur){
-		// la Bille est un Disque, on construit le disque
-    this.position = position;
-    double rayon = 10.0;
-    this.rayon = rayon; // on crée un bille de rayon de 10 cm
-
-		double M = 200.0; // masse de 200 g
-		// on ajoute une masse et une appartenance
-		this.masse = M;
-		this.equipe = equipe;
-
-		// la vitesse et l'accélération sont nuls quand on créé les Billes, elles seront modifiées en jeu
-		this.vitesse = new Vecteur(0,0);
-		this.acceleration = new Vecteur(0,0);
-
-		// tant que la bille n'est pas tombée, ces attributs ne sont pas importants
-		this.estTombe = false;
-		this.joueur = null;
+    public Bille(Vecteur position, BilleCouleur couleur){
+        this(position, couleur, 10.0, 200.0);
     }
 
 // GET et SET -----------------------------------------------------------------------------------------------------
@@ -83,12 +64,12 @@ public class Bille extends Element{
         return this.rayon;
     }
 
-    public Equipe getEquipe(){
-        return this.equipe;
-    }
-
     public double getMasse(){
         return this.masse;
+    }
+
+    public BilleCouleur getBilleCouleur(){
+        return this.couleur;
     }
 
 	public void setAcceleration(Vecteur acceleration){
@@ -201,14 +182,14 @@ public class Bille extends Element{
   * Méthode qui génère l'affichage d'une bille
   */
   public void peindreElement( Graphics g ){
-      g.setColor(getCouleur());
+      g.setColor(this.getCouleur());
       int xPosition = (int)(position.x - rayon);
       int yPosition = (int)(position.y - rayon);
       g.fillOval(xPosition, yPosition, 2*(int)rayon, 2*(int)rayon);
   }
 
   protected Color getCouleur(){
-     return couleur.getCouleur();
+     return this.getBilleCouleur().getCouleur();
   }
 
 }

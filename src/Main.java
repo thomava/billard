@@ -5,8 +5,8 @@ public class Main{
 
     public static void main(String[] args){
 
-        Equipe a = new Equipe(Color.yellow);
-        Equipe b = new Equipe(Color.red);
+        Equipe a = new Equipe();
+        Equipe b = new Equipe();
 
         Joueur a1 = new Joueur("a1");
         Joueur b1 = new Joueur("b1");

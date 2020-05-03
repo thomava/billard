@@ -18,7 +18,7 @@ public class DescriptionTour{
 
     public void addBilleTombée(Bille b){
         billesTombéesTour.add(b);
-        if (b.getEquipe() == joueurActuel.equipe)
+        if (b.getBilleCouleur().getEquipe() == joueurActuel.equipe)
             peutRejouer = true;
     }
 
@@ -28,7 +28,7 @@ public class DescriptionTour{
 
     public void Faute(){
         for( Bille b : billesTombéesTour ){
-          if (b.getEquipe() != joueurActuel.equipe){
+          if (b.getBilleCouleur().getEquipe() != joueurActuel.equipe){
             fauteCommise = true;
           }
         }
