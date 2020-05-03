@@ -10,21 +10,21 @@ import java.awt.Color;
 
 public class Plateau{
 
-    // TODO : Vérifier que les attributs ne sont pas null.
     private Equipe[] listeEquipes;
     private ArrayList<Bille> listeBillesTombées;
     private int equipeActuelle;
-    private boolean faute;
     private PanelJeu panelJeu;
     private MoteurPhysique moteurPhy;
-
 
     private ArrayList<Element> listeElements;
     private BilleBlanche bb;
     private BilleNoire bn;
     private Terrain tr;
 
+    // Attributs relatifs à un tour.
     private Joueur joueurActuel;
+    private boolean faute;
+    private boolean billeBlancheTombée;
 
     public Plateau(Equipe[] _listeEquipes){
         listeEquipes = _listeEquipes;
@@ -49,6 +49,7 @@ public class Plateau{
         tr = new Terrain(diagonaleTerrain);
         elementArray.add(tr);
         elementArray.add(bb);
+        this.billeBlancheTombée = false;
 
         // génération des trous du terrain
         for (int i = 0; i<3 ; i++){
@@ -86,11 +87,27 @@ public class Plateau{
         joueurActuel = listeEquipes[equipeActuelle].prochainJoueur();
     }
 
+    private boolean isBilleBlancheBienReplacée(){
+        Vecteur pos = bb.getPosition();
+        for (Element e : listeElements){
+            if (e.recoitContact(bb) != null)
+                return false;
+        }
+        //TODO Mettre les vrais zones autorisées.
+        return true;
+    }
+
     /**
      * Méthode utilisée pour lancer la partie.
      */
     public void lancerPartie(){
         while(!partieTerminée()){
+            if (billeBlancheTombée){
+                do{
+                    panelJeu.attendreReplacerBilleBlanche();
+                }while(!isBilleBlancheBienReplacée());
+                listeElements.add(bb);
+            }
             Tir tir = panelJeu.attendreTir();
 
             DescriptionTour desc = new DescriptionTour(faute, joueurActuel);
@@ -131,8 +148,9 @@ public class Plateau{
      * @return True si le joueur peut rejouer. Si il a rentré une bille.
      */
     public boolean finDeTour(DescriptionTour desc){
-        this.faute = desc.fauteCommise;
+        this.faute = desc.isFauteCommise();
         this.listeBillesTombées.addAll(desc.getListeBillesTombées());
+        this.billeBlancheTombée = desc.isBilleBlancheTombée();
         return (desc.peutRejouer());
     }
 
@@ -144,6 +162,7 @@ public class Plateau{
         return joueurActuel;
     }
 
+    
     /**
      * Méthode qui retourne le nombre de billes d'une équipe qui sont tombées.
      * @param equipeBille - équipe dont on veut savoir le nombre de billes qui sont tombées.
