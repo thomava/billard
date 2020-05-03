@@ -149,10 +149,10 @@ public class Plateau{
      * @param equipeBille - équipe dont on veut savoir le nombre de billes qui sont tombées.
      * @return int - nombre de billes tombées de cette équpe.
      */
-    public int nombreBillesTombees(Equipe equipeBille){
+    public int nombreBillesTombees(BilleCouleur _billeCouleur){
         int c = 0;
         for( Bille b : listeBillesTombées){
-            if(b.getEquipe() == equipeBille){
+            if(b.getBilleCouleur() == _billeCouleur){
                 c += 1;
             }
         }
