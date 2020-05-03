@@ -192,6 +192,7 @@ public class Bille extends Element{
      * Méthode qui met à jour le statut de la bille quand elle est tombée.
      */
     public void tomber(){
+      System.out.println("bille tombée");
       this.estTombe = true;
     }
 

@@ -16,12 +16,16 @@ public class Contact implements Comparable<Contact>{
         profondeurContact = _profondeurContact;
     }
 
+    public Bille getBille(){
+      return e1;
+    }
+
     /**
      * Méthode appelée par le MoteurPhysique à la fin d'une actualisation pour
      * gérer les contacts entre les élements physiques.
-     * @return e1 si elle est tombée dans un trou. Sinon, retourne null.
+     * @return false si elle est tombée dans un trou. Sinon, retourne true.
      */
-    public Bille faireContact(){
+    public boolean faireContact(){
         double vitTan1 = tan.produitScalaire(e1.getVitesse());
         double vitTan2 = 0;
 
@@ -60,9 +64,9 @@ public class Contact implements Comparable<Contact>{
         }else{
             //L'element de contact est un trou.
             e1.tomber();
-            return e1;
+            return false;
         }
-        return null;
+        return true;
     }
 
     public int compareTo(Contact c){

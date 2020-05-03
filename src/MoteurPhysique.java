@@ -4,9 +4,9 @@ import java.util.Collections;
 public class MoteurPhysique{
 
     private ArrayList<Element> listeElements;
-    private BilleBlanche bb; 
+    private BilleBlanche bb;
     private PanelJeu panelJeu;
-    
+
     public MoteurPhysique(PanelJeu _panelJeu, BilleBlanche _bb, ArrayList<Element> _listeElements){
         listeElements = _listeElements;
         bb = _bb;
@@ -28,7 +28,7 @@ public class MoteurPhysique{
 
     /**
      * Gère la physique du tour actuel. La méthode quitte la boucle lorsque le
-     * tour est considéré comme terminé. 
+     * tour est considéré comme terminé.
      *
      * Prend en paramètre le Tir. Puis simule le tour à partir de ce tir.
      * @param tir Objet tir associée à la décision de tir du joueur. C'est à
@@ -49,7 +49,7 @@ public class MoteurPhysique{
             try{
                 Thread.sleep(1);
             }catch(InterruptedException e) {}
-           
+
         }
         System.out.println("tour terminé");
     }
@@ -59,7 +59,7 @@ public class MoteurPhysique{
      * Gère le tir et donne la vitesse initale à la bille blanche.
      */
     public void effectuerTir(Tir tir){
-       bb.setVitesse(tir.getVitesse().mul(4)); 
+       bb.setVitesse(tir.getVitesse().mul(4));
     }
 
     /**
@@ -75,7 +75,7 @@ public class MoteurPhysique{
 
 
     /**
-     * Trouve les collisions entre les elements et génère une liste de Contact. 
+     * Trouve les collisions entre les elements et génère une liste de Contact.
      *
      * Les collisions ne viennent que des billes en mouvement. Pour gagner un
      * peu de temps, les tests de contact sont fait uniquement pour les billes
@@ -111,7 +111,7 @@ public class MoteurPhysique{
      * billes alors il faut traiter le contact le plus profond en premier.
      * @param desc DescriptionTour pour ajouter les billes tombées.
      * @param listeContacts Les contacts qu'il faut traiter.
-     */ 
+     */
     public void traiterCollisions(DescriptionTour desc, ArrayList<Contact> listeContacts){
         Collections.sort(listeContacts);
 
@@ -125,9 +125,10 @@ public class MoteurPhysique{
 
         for (Contact c : listeContacts){
             //faireContact retourne la bille si elle est tombée dans une poche.
-            Bille b = c.faireContact();
-            if (b != null){
-                desc.addBilleTombée(b); 
+            boolean cont = c.faireContact();
+            if (!cont){
+                desc.addBilleTombée(c.getBille());
+                listeElements.remove(c.getBille());
             }
         }
 
