@@ -1,5 +1,4 @@
 /*
- * TODO :  Gérer les fautes.
  * TODO :  Gérer le score.
  * TODO :  Gérer la fin de tour.
  * TODO :  Gérer la fin de partie.
@@ -63,12 +62,20 @@ public class Plateau{
         // génération des billes sur le terrain
         BilleCouleur cr = new BilleCouleur(Color.red);
         BilleCouleur cj = new BilleCouleur(Color.yellow);
+        BilleCouleur[] placementOfficiel = new BilleCouleur[]{cj, cr, cj, cr, cj, cr, cj, null, cj, cr, cr, cr, cj, cj, cr};
         for (int i = 0; i<5 ; i++){
             for (int j = 0 ; j<5-i ; j++){
-                Bille b = new Bille(new Vecteur(100+24*j,150+28*i+14*j),
-                                    cr,
-                                    13,
-                                    200);
+                Bille b;
+                if (placementOfficiel != null){
+                    b = new Bille(new Vecteur(100+24*j,150+28*i+14*j),
+                                        cr,
+                                        13,
+                                        200);
+                }else{
+                    b = new BilleNoire(new Vecteur(100+24*j,150+28*i+14*j),
+                                        13,
+                                        200);
+                }
                 elementArray.add(b);
             }
         }
