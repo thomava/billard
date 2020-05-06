@@ -1,4 +1,5 @@
 import java.awt.event.*;
+import java.awt.MouseInfo;
 import java.awt.Graphics;
 import javax.swing.JPanel;
 import java.util.ArrayList;
@@ -13,6 +14,8 @@ public class PanelJeu extends JPanel implements MouseMotionListener, MouseListen
     private Terrain terrain;
     private JSlider curseurNorme;
     private JButton validerNorme;
+    
+    private boolean etatReplacementBilleBlanche;
 
     private int translate = 25;
 
@@ -57,17 +60,27 @@ public class PanelJeu extends JPanel implements MouseMotionListener, MouseListen
             g.drawLine((int)billeBlanche.position.x, (int)billeBlanche.position.x, (int)billeBlanche.position.x + dir.x * norme, (int)billeBlanche.position.y - dir.y * norme);
         }
 
+        if (etatReplacementBilleBlanche){
+            billeBlanche.peindreElement(g);
+        }
+
     }
 
 //Quand le joueur doit choisir son tire, on affiche le vecteur quand il bouge
 	public void mouseMoved(MouseEvent e) {
 
-    //si le joueur n'a pas choisi son tir, on affiche la direction du tir
-    if((tirJoue==null)&&(direction==null)){
+    if((tirJoue==null)&&(direction==null) || etatReplacementBilleBlanche){
+
         xS = e.getX() - translate;
         yS = e.getY() - translate;
         repaint();
+
+        if (etatReplacementBilleBlanche){
+            billeBlanche.setPosition(new Vecteur(xS, yS));
         }
+
+    }
+
     }
 
   // Méthodes inutiles mais obligatoires pour compiler. Il faut tenir compte du
@@ -82,6 +95,10 @@ public class PanelJeu extends JPanel implements MouseMotionListener, MouseListen
       if((tirJoue==null)&&(direction==null)){
           direction = normaliser(new Vecteur( billeBlanche.position.x - e.getX(), billeBlanche.position.y - e.getY()));
           ChoixNorme();
+      }
+
+      if(etatReplacementBilleBlanche){
+          this.etatReplacementBilleBlanche = false;
       }
 	}
 
@@ -103,10 +120,39 @@ public class PanelJeu extends JPanel implements MouseMotionListener, MouseListen
     norme = (double)source.getValue();
 }
 
+  private void updateMousePosition(){
+      this.xS = (int)(MouseInfo.getPointerInfo().getLocation().getX() 
+                        - this.getLocationOnScreen().getX()
+                        - translate);
+      this.yS = (int)(MouseInfo.getPointerInfo().getLocation().getY() 
+                        - this.getLocationOnScreen().getY()
+                        - translate);
+  }
+
+  public void attendreReplacerBilleBlanche() {
+      this.etatReplacementBilleBlanche = true;
+
+      updateMousePosition();
+      billeBlanche.setPosition(new Vecteur(xS, yS));
+
+      repaint();
+      while(etatReplacementBilleBlanche){
+          try{
+              // Permet au processeur de prendre un peu de répit et de ne pas
+              // calculer la condition de la boucle à toute vitesse.
+              Thread.sleep(100);
+          }catch(InterruptedException e) {}
+      }
+    }
+
+
+
   public Tir attendreTir() {
       direction=null;
       norme = null;
       tirJoue=null;
+
+      updateMousePosition();
       repaint();
       while(tirJoue==null){
           try{

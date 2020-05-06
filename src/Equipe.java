@@ -1,26 +1,18 @@
-import java.awt.Color;
 import java.util.ArrayList;
 public class Equipe{
-
-    private Color col;
 
     private int joueurActuel;
     private ArrayList<Joueur> listeJoueurs;
 
 // CONSTRUCTEURS ----------------------------------------------------
 
-    public Equipe(Color _col){
-        col = _col;
+    public Equipe(){
         listeJoueurs = new ArrayList<Joueur>();
     }
 
     public void addJoueur(Joueur j){
         listeJoueurs.add(j);
         j.setEquipe(this);
-    }
-
-    public Color getColor(){
-        return col;
     }
 
     /**
