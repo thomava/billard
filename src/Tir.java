@@ -1,15 +1,15 @@
 public class Tir{
     protected boolean doitTirer;
-    protected Vecteur position;
-    protected Vecteur point;
+    protected Vecteur tir;
 
-    public Tir(int x, int y, Bille billeBlanche){
-        position = billeBlanche.position;
-        point = new Vecteur(x, y);
+    public Tir(Vecteur _tir){
+        tir = _tir;
     }
-
+    /*
+     * TODO : Voir comment est utilisé vitesse avec thomas .
+     */
     public Vecteur getVitesse(){
-        return position.add(point.mul(-1));
+        return vitesse.mul(-1);
     }
 
 }
