@@ -9,7 +9,7 @@ public class Tir{
      * TODO : Voir comment est utilisé vitesse avec thomas .
      */
     public Vecteur getVitesse(){
-        return vitesse.mul(-1);
+        return tir;
     }
 
 }

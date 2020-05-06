@@ -1,13 +1,18 @@
 import java.awt.event.*;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 import java.awt.Graphics;
-import javax.swing.JPanel;
+import javax.swing.*;
 import java.util.ArrayList;
 import java.awt.Color;
+import java.awt.Stroke;
+import java.awt.BasicStroke;
+import java.awt.Graphics2D;
 
-public class PanelJeu extends JPanel implements MouseMotionListener, MouseListener {
+public class PanelJeu extends JPanel implements MouseMotionListener, MouseListener, ChangeListener, ActionListener{
     private BilleBlanche billeBlanche;
     private Vecteur direction;
-    private double norme;
+    private double norme = 0.0;
     private Tir tirJoue;
     private ArrayList<Element> listeElements;
     private Terrain terrain;
@@ -18,26 +23,31 @@ public class PanelJeu extends JPanel implements MouseMotionListener, MouseListen
 
     private int xS, yS;
 
-    /*
-     * TODO : Positionner les boutons et jauges et choisir la vitesse max ( celle qui permet de parcourir la longeur du terrain.
-     */
-     	public PanelJeu(ArrayList<Element> _listeElements,
-                    Terrain _terrain,
-                    BilleBlanche _billeBlanche) {
-        addMouseListener(this);
-        addMouseMotionListener(this);
-        billeBlanche = _billeBlanche;
+     	public PanelJeu(ArrayList<Element> _listeElements, Terrain _terrain, BilleBlanche _billeBlanche) {
+		super();
+		int haut = 50;
+		billeBlanche = _billeBlanche;
         listeElements = _listeElements;
         terrain = _terrain;
-
-        curseurNorme = new JSlider(JSlider.HORIZONTAL,0, Vmax, Vmax/2);
+		this.setBounds(100,100, (int)terrain.getXTerrain()+2*translate, (int)terrain.getYTerrain()+2*translate+haut); //(int)terrain.getXTerrain() 
+        addMouseListener(this);
+        addMouseMotionListener(this);
+        
+		int Vmax = 500;
+        curseurNorme = new JSlider(JSlider.HORIZONTAL,0, Vmax, 0);
         curseurNorme.addChangeListener(this);
+        curseurNorme.setBounds(0,(int)terrain.getYTerrain()+2*translate, 300,haut);
         validerNorme = new JButton("Valider");
         validerNorme.addActionListener(this);
+        validerNorme.setBounds(300,(int)terrain.getYTerrain()+2*translate, 200, haut);
+        
+        this.add(curseurNorme);
+		this.add(validerNorme);
+        setLayout(null);
 	}
 
-    public void setNorme()
     public void paint(Graphics g){
+		super.paint(g);
         g.translate(translate,translate);
         terrain.peindreElement(g);
         for (Element e : listeElements){
@@ -46,28 +56,38 @@ public class PanelJeu extends JPanel implements MouseMotionListener, MouseListen
 
         // tant que le jour n'a pas choisi sa direction, on affiche le vecteur direction qui bouge avec la souris
         if ((tirJoue==null)&&(direction==null)){
-            g.setColor(Color.blue);
-            Vecteur dir = normaliser(new Vecteur( billeBlanche.position.x - xS,billeBlanche.position.y - xS));
-            g.drawLine((int)billeBlanche.position.x, (int)billeBlanche.position.x, (int)billeBlanche.position.x - dir.x, (int)billeBlanche.position.y - dir.y);
+            Vecteur dir = (new Vecteur( billeBlanche.position.x - xS,billeBlanche.position.y - yS)).normaliser();
+            dessinerQueue(g, dir);
         }
 
         //tant que le joueur n'a pas chosi sa norme, on affiche le tir qu'il chosit en fonction de la norme
         if ((tirJoue==null)&&(direction!=null)){
             g.setColor(Color.red);
-            g.drawLine((int)billeBlanche.position.x, (int)billeBlanche.position.x, (int)billeBlanche.position.x + dir.x * norme, (int)billeBlanche.position.y - dir.y * norme);
+            Vecteur Arrivee = direction.mul(1.5*norme);
+            g.drawLine((int)billeBlanche.position.x, (int)billeBlanche.position.y, (int)(billeBlanche.position.x + Arrivee.x), (int)(billeBlanche.position.y + Arrivee.y));
+            dessinerQueue(g, direction);
         }
-
     }
 
+	public void dessinerQueue(Graphics g, Vecteur dir){
+		Graphics2D g2 = (Graphics2D) g;
+        Stroke s = g2.getStroke();
+		g2.setStroke(new BasicStroke(6));
+		g2.setColor(new Color(126, 88, 53));
+        g2.drawLine((int)(billeBlanche.position.x - dir.mul(16).x), (int)(billeBlanche.position.y - dir.mul(16).y), (int)(billeBlanche.position.x - dir.mul(300).x), (int)(billeBlanche.position.y - dir.mul(300).y));
+        g2.setColor(Color.black);
+		g2.drawLine((int)(billeBlanche.position.x - dir.mul(16).x), (int)(billeBlanche.position.y - dir.mul(16).y), (int)(billeBlanche.position.x - dir.mul(30).x), (int)(billeBlanche.position.y - dir.mul(30).y));
+		g2.setStroke(s);
+	}
 //Quand le joueur doit choisir son tire, on affiche le vecteur quand il bouge
 	public void mouseMoved(MouseEvent e) {
 
     //si le joueur n'a pas choisi son tir, on affiche la direction du tir
-    if((tirJoue==null)&&(direction==null)){
-        xS = e.getX() - translate;
-        yS = e.getY() - translate;
-        repaint();
-        }
+		if((tirJoue==null)&&(direction==null)){
+			xS = e.getX() - translate;
+			yS = e.getY() - translate;
+			repaint();
+		}
     }
 
   // Méthodes inutiles mais obligatoires pour compiler. Il faut tenir compte du
@@ -80,19 +100,21 @@ public class PanelJeu extends JPanel implements MouseMotionListener, MouseListen
 
   public void mousePressed(MouseEvent e) {
       if((tirJoue==null)&&(direction==null)){
-          direction = normaliser(new Vecteur( billeBlanche.position.x - e.getX(), billeBlanche.position.y - e.getY()));
-          ChoixNorme();
+          direction = (new Vecteur( billeBlanche.position.x - xS,billeBlanche.position.y - yS)).normaliser();
       }
 	}
 
-  public void ChoixNorme() {
-    this.add(curseurNorme);
-    this.add(validerNorme);
-  }
-
   public void actionPerformed(ActionEvent e) {
-    tirJoue = new Tir( direction.mul(norme), billeBlanche);
+	  try{
+		tirJoue = new Tir(direction.mul(norme));
+		curseurNorme.setValue(0);
+	}catch(NullPointerException a){
+		System.out.println("Cliquer pour valider la direction de tir");
+		/*
+   * TODO : Afficher messag erreur
+   */
 	}
+  }
 
   /*
    * TODO : Affichage de l'effet de la norme : dans l'idéal trajectoire de la bille si elle ne rencontre rien
@@ -101,11 +123,12 @@ public class PanelJeu extends JPanel implements MouseMotionListener, MouseListen
   public void stateChanged(ChangeEvent e) {
     JSlider source = (JSlider)e.getSource();
     norme = (double)source.getValue();
+    repaint();
 }
 
   public Tir attendreTir() {
       direction=null;
-      norme = null;
+      norme = 0;
       tirJoue=null;
       repaint();
       while(tirJoue==null){
