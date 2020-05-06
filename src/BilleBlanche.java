@@ -4,7 +4,12 @@ public class BilleBlanche extends Bille{
 
     public BilleBlanche(Vecteur position, double rayon, double masse){
         super(position, null, rayon, masse);
-        this.couleur = Color.white;
+    }
+
+
+    @Override
+    protected Color getCouleur(){
+        return Color.white;
     }
 
 }

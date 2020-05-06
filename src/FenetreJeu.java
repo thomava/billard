@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class FenetreJeu extends JFrame implements ActionListener {
 
-		private JTextField fenetreScore;
+    private JTextField fenetreScore;
     private JTextField fenetreRegles;
     private JButton BoutonRegles;
     private PanelJeu panelJeu;
