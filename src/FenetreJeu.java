@@ -47,8 +47,6 @@ public class FenetreJeu extends JFrame implements ActionListener {
         panneauGeneral.add(panneauBilles);
 
         panelJeu = _panelJeu; 
-        panelJeu.setBounds(100,100,800,500);
-        panelJeu.setLayout(null);
         panneauGeneral.add(panelJeu);
 
         this.add(panneauGeneral);

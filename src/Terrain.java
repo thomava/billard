@@ -11,6 +11,14 @@ public class Terrain extends Element{
     public Terrain(Vecteur _taille){
         this.taille = _taille; 
     }
+    
+    public double getYTerrain(){
+        return taille.y; 
+    }
+    
+    public double getXTerrain(){
+        return taille.x; 
+    }
 
     
     /**
