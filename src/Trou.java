@@ -3,13 +3,12 @@ import java.awt.Graphics;
 
 public class Trou extends Element{
 
-  protected Vecteur position;
   private double rayon;
 
   // CONSTRUCTEURS -----------------------------------------------------------------------------------------------------
-  public Trou(Vecteur position, double rayon){
-      this.position = position;
-      this.rayon = rayon;
+  public Trou(Vecteur _position, double _rayon){
+      super(_position)
+      this.rayon = _rayon;
   }
 
   // FONCTIONS  -----------------------------------------------------------------------------------------------------
@@ -33,8 +32,8 @@ public void peindreElement( Graphics g ){
     g.setColor(Color.black);
   //int xPosition = (int)(position.MetreVersPixels().x-rayon);
   //int yPosition = (int)(position.MetreVersPixels().y-rayon);
-  int xPosition = (int)(position.x - rayon);
-  int yPosition = (int)(position.y - rayon);
+  int xPosition = (int)(super.position.x - rayon);
+  int yPosition = (int)(super.position.y - rayon);
   g.fillOval(xPosition, yPosition, 2*(int)rayon, 2*(int)rayon);
 }
 }
