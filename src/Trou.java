@@ -7,7 +7,7 @@ public class Trou extends Element{
 
   // CONSTRUCTEURS -----------------------------------------------------------------------------------------------------
   public Trou(Vecteur _position, double _rayon){
-      super(_position)
+      super(_position);
       this.rayon = _rayon;
   }
 
