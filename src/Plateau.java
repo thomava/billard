@@ -63,12 +63,13 @@ public class Plateau{
         BilleCouleur cr = new BilleCouleur(Color.red);
         BilleCouleur cj = new BilleCouleur(Color.yellow);
         BilleCouleur[] placementOfficiel = new BilleCouleur[]{cj, cr, cj, cr, cj, cr, cj, null, cj, cr, cr, cr, cj, cj, cr};
+        int k = 0;
         for (int i = 0; i<5 ; i++){
             for (int j = 0 ; j<5-i ; j++){
                 Bille b;
-                if (placementOfficiel != null){
+                if (placementOfficiel[k] != null){
                     b = new Bille(new Vecteur(100+24*j,150+28*i+14*j),
-                                        cr,
+                                        placementOfficiel[k],
                                         13,
                                         200);
                 }else{
@@ -77,6 +78,7 @@ public class Plateau{
                                         200);
                 }
                 elementArray.add(b);
+                k++;
             }
         }
 
