@@ -17,6 +17,10 @@ public class Joueur{
         return equipe;
     }
 
+    public String getNom(){
+        return nom;
+    }
+
     @Override
     public String toString(){
         return nom +" de l'équipe "+equipe;
