@@ -5,11 +5,14 @@
  */
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Arrays;
 import java.awt.Color;
 
 public class Plateau{
 
     private Equipe[] listeEquipes;
+    private BilleCouleur[] listeCouleurs;
     private ArrayList<Bille> listeBillesTombées;
     private int equipeActuelle;
     private PanelJeu panelJeu;
@@ -62,6 +65,7 @@ public class Plateau{
         // génération des billes sur le terrain
         BilleCouleur cr = new BilleCouleur(Color.red);
         BilleCouleur cj = new BilleCouleur(Color.yellow);
+        this.listeCouleurs = new BilleCouleur[]{cr,cj};
         BilleCouleur[] placementOfficiel = new BilleCouleur[]{cj, cr, cj, cr, cj, cr, cj, null, cj, cr, cr, cr, cj, cj, cr};
         int k = 0;
         for (int i = 0; i<5 ; i++){
@@ -157,10 +161,57 @@ public class Plateau{
      * @return True si le joueur peut rejouer. Si il a rentré une bille.
      */
     public boolean finDeTour(DescriptionTour desc){
+        System.out.println(desc);
         this.faute = desc.isFauteCommise();
         this.listeBillesTombées.addAll(desc.getListeBillesTombées());
         this.billeBlancheTombée = desc.isBilleBlancheTombée();
+        if(desc.isPremièreBilleTombée())
+        {
+            gérerAttributionEquipes(desc);
+        }
         return (desc.peutRejouer());
+    }
+
+    public void gérerAttributionEquipes(DescriptionTour desc){
+        Bille première = desc.getPremièreBilleTombée();
+        for (BilleCouleur c : listeCouleurs){
+            if (c == première.getBilleCouleur())
+            {
+                c.setEquipe(desc.getJoueurActuel().getEquipe());
+                break;
+            }
+        } 
+
+
+        // Tout le reste de la méthode pour gérer le fait qu'il peut y avoir
+        // plus de deux équipes. Fait en sorte que la denière équipe soit
+        // attribué à la bonne BilleCouleur.
+       
+        int nbrSet = 0;
+        for (BilleCouleur c : listeCouleurs){
+            if (c.isEquipeSet())
+                nbrSet++;
+        }
+
+        LinkedList<Equipe> equipeDistribuée = new LinkedList<Equipe>();
+        LinkedList<Equipe> tempListeEquipes = new LinkedList<Equipe>(Arrays.asList(listeEquipes));
+        if (nbrSet == listeCouleurs.length -1){
+            for (BilleCouleur c : listeCouleurs){
+                if (c.isEquipeSet()){
+                    Equipe e = c.getEquipe();
+                    equipeDistribuée.add(e);
+                }
+            }
+            tempListeEquipes.removeAll(equipeDistribuée);
+            
+            for (BilleCouleur c : listeCouleurs){
+                if (!c.isEquipeSet()){
+                    c.setEquipe(tempListeEquipes.get(0));
+                }
+            }
+
+        }
+
     }
 
     /**

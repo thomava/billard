@@ -12,4 +12,13 @@ public class Joueur{
     public void setEquipe(Equipe e){
         equipe = e;
     }
+
+    public Equipe getEquipe(){
+        return equipe;
+    }
+
+    @Override
+    public String toString(){
+        return nom +" de l'équipe "+equipe;
+    }
 }

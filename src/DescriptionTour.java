@@ -20,6 +20,9 @@ public class DescriptionTour{
     private boolean billeBlancheTombée;
     private boolean billeNoireTombée;
 
+    private boolean premièreBilleTombée;
+    private Bille premièreBilleTombéeObjet;
+
     public DescriptionTour(boolean _fauteTourAvant, Joueur _joueurActuel){
         this.billesTombéesTour = new ArrayList<Bille>();
         this.fauteCommise = false;
@@ -29,26 +32,58 @@ public class DescriptionTour{
 
         this.billeBlancheTombée = false;
         this.billeNoireTombée = false;
+
+        this.premièreBilleTombée = false;
     }
 
-    public void setPremierContact(Bille _b){
-        this.premierContact = _b;
+    /**
+     * Méthode qui permet de renseigner le premier contact.
+     */
+    public void registerPremierContact(Bille _b){
+        if (!(_b instanceof BilleBlanche || _b instanceof BilleNoire))
+        { 
+            premierContact = _b;
+            if (_b.getBilleCouleur().isEquipeSet()){
+                if (_b.getBilleCouleur().getEquipe() != joueurActuel.equipe){
+                    this.fauteCommise = true; 
+                }
+            }
+        }
+    }
+
+    public boolean isPremierContactSet(){
+        return (premierContact != null);
     }
 
     public void addBilleTombée(Bille _b){
         if (_b instanceof BilleBlanche){
             billeBlancheTombée = true;
+            this.fauteCommise = true;
         }else if (_b instanceof BilleNoire){
             billeNoireTombée = true;
         }else{
             this.billesTombéesTour.add(_b);
 
-            if (_b.getBilleCouleur().getEquipe() == joueurActuel.equipe){
-                this.peutRejouer = true;
+            if (_b.getBilleCouleur().isEquipeSet()){
+                if (_b.getBilleCouleur().getEquipe() == joueurActuel.equipe){
+                    this.peutRejouer = true;
+                }else{
+                    this.fauteCommise = true;
+                }
             }else{
-                this.fauteCommise = true;
+                this.premièreBilleTombéeObjet = _b;
+                this.premièreBilleTombée = true;
+                this.peutRejouer = true;
             }
         }
+    }
+
+    public boolean isPremièreBilleTombée(){
+        return premièreBilleTombée;
+    }
+
+    public Bille getPremièreBilleTombée(){
+        return premièreBilleTombéeObjet;
     }
 
     public ArrayList<Bille> getListeBillesTombées(){
@@ -67,8 +102,29 @@ public class DescriptionTour{
         return fauteCommise;
     }
 
+    public Joueur getJoueurActuel(){
+        return joueurActuel;
+    }
+
     public boolean peutRejouer(){
         return ((fauteTourAvant || peutRejouer) && !fauteCommise);
+    }
+
+    @Override
+    public String toString(){
+        String str = "";
+
+        str += "-----------------------------\n";
+        str += "Tour numéro "+"TODO"+"\n";
+        str += "Joueur du tour : "+joueurActuel+"\n";
+        str += "Faute : "+fauteCommise+" | PeutRejouer "+peutRejouer+"\n";
+        str += "Nbr billes tombées : "+billesTombéesTour.size()+" dont : \n";
+        str += "BilleBlanche : "+billeBlancheTombée+" | BilleNoire : "+billeNoireTombée+"\n";
+        str += "Premier tour où des billes tombent : "+premièreBilleTombée+"\n";
+        str+= "-----------------------------\n";
+
+        
+        return str;
     }
 
 }

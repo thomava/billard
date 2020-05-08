@@ -3,6 +3,7 @@ public class Equipe{
 
     private int joueurActuel;
     private ArrayList<Joueur> listeJoueurs;
+    private BilleCouleur billeCouleurAssociée;
 
 // CONSTRUCTEURS ----------------------------------------------------
 
@@ -15,6 +16,10 @@ public class Equipe{
         j.setEquipe(this);
     }
 
+    public void setBilleCouleur(BilleCouleur _bc){
+        this.billeCouleurAssociée = _bc;
+    }
+
     /**
      * Détermine et retourne le prochain joueur de cette équipe.
      * @return le joueur suivant de l'équipe.
@@ -25,6 +30,14 @@ public class Equipe{
             joueurActuel = 0;
 
         return listeJoueurs.get(joueurActuel);
+    }
+
+    @Override
+    public String toString(){
+        if (billeCouleurAssociée != null)
+            return "couleur : "+billeCouleurAssociée;
+        else
+            return super.toString();
     }
 
 }

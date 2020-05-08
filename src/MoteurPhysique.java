@@ -123,6 +123,15 @@ public class MoteurPhysique{
             }
         }
 
+        //Register le premier contact avec une bille du tour.
+        if (!desc.isPremierContactSet()){
+            for (Contact c : listeContactsNoDup){
+                if (c.getContactElement() instanceof Bille){
+                    desc.registerPremierContact(((Bille) c.getContactElement()));
+                }
+            }
+        }
+
         for (Contact c : listeContacts){
             //faireContact retourne la bille si elle est tombée dans une poche.
             boolean cont = c.faireContact();

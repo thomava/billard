@@ -17,7 +17,11 @@ public class Contact implements Comparable<Contact>{
     }
 
     public Bille getBille(){
-      return e1;
+        return e1;
+    }
+
+    public Element getContactElement(){
+        return e2;
     }
 
     /**

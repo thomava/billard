@@ -14,14 +14,24 @@ public class BilleCouleur{
 
     public void setEquipe(Equipe _equipe){
         this.equipe = _equipe;
+        equipe.setBilleCouleur(this);
     }
 
     public Equipe getEquipe(){
         return this.equipe;
     }
 
+    public boolean isEquipeSet(){
+        return (equipe != null);
+    }
+
     public Color getCouleur(){
         return this.couleur;
+    }
+
+    @Override
+    public String toString(){
+        return couleur.toString();
     }
 
 }
