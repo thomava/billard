@@ -16,6 +16,7 @@ public class Plateau{
     private ArrayList<Bille> listeBillesTombées;
     private int equipeActuelle;
     private PanelJeu panelJeu;
+    private FenetreJeu fj;
     private MoteurPhysique moteurPhy;
 
     private ArrayList<Element> listeElements;
@@ -33,7 +34,7 @@ public class Plateau{
 
         listeElements = genererElements();
         panelJeu = new PanelJeu(listeElements, tr, bb);
-        FenetreJeu fj = new FenetreJeu(panelJeu);
+        fj = new FenetreJeu(panelJeu);
 
         listeBillesTombées = new ArrayList<Bille>();
 
@@ -115,6 +116,8 @@ public class Plateau{
      */
     public void lancerPartie(){
         while(!partieTerminée()){
+            fj.genererContenuPanneauEquipe(listeEquipes, joueurActuel);
+            
             if (billeBlancheTombée){
                 do{
                     panelJeu.attendreReplacerBilleBlanche();
@@ -174,6 +177,7 @@ public class Plateau{
 
     public void gérerAttributionEquipes(DescriptionTour desc){
         Bille première = desc.getPremièreBilleTombée();
+        System.out.println(première);
         for (BilleCouleur c : listeCouleurs){
             if (c == première.getBilleCouleur())
             {
