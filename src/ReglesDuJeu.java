@@ -12,7 +12,7 @@ public class ReglesDuJeu extends JFrame{
 				this.setSize(1000,700);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         //Panneau pour avoir un fond vert foncé sur toute la fenetre comme ça c'est beau
         JPanel Fond = new JPanel();
