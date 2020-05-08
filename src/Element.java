@@ -4,6 +4,15 @@ public abstract class Element{
 
     protected Vecteur position;
 
+    public Element(Vecteur _position){
+        this.position = _position;
+    }
+
+
+    public Element(){
+        this(new Vecteur(0,0));
+    }
+
     /**
      * Méthode appelée par paint() de FenetreJeu pour peindre les différents
      * élements qui composent le Plateau.
