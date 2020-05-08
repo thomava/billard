@@ -32,7 +32,7 @@ public class PanelJeu extends JPanel implements MouseMotionListener, MouseListen
 		billeBlanche = _billeBlanche;
         listeElements = _listeElements;
         terrain = _terrain;
-		this.setBounds(100,100, (int)terrain.getXTerrain()+2*translate, (int)terrain.getYTerrain()+2*translate+haut); //(int)terrain.getXTerrain()
+		this.setBounds(100,150, (int)terrain.getXTerrain()+2*translate, (int)terrain.getYTerrain()+2*translate+haut); //(int)terrain.getXTerrain()
         addMouseListener(this);
         addMouseMotionListener(this);
 
