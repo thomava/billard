@@ -4,7 +4,6 @@ import java.awt.Color;
 public class Main{
 
     public static void main(String[] args){
-
         Equipe a = new Equipe();
         Equipe b = new Equipe();
 
@@ -21,7 +20,12 @@ public class Main{
         Equipe[] listeEquipes = new Equipe[]{a,b};
 
         Plateau p = new Plateau(listeEquipes);
+        
+        //La partie bug si on la lance depuie la fentre princiapale, via la
+        //méthode actionPerformed();
         p.lancerPartie();
+//        FenetrePrincipale fp = new FenetrePrincipale(p);
+
     }
 
 }
