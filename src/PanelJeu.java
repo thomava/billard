@@ -1,4 +1,5 @@
 import java.awt.event.*;
+import java.awt.Font;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import java.awt.MouseInfo;
@@ -32,33 +33,33 @@ public class PanelJeu extends JPanel implements MouseMotionListener, MouseListen
 // CONSTRUCTEURS -----------------------------------------------------------------------------------------------------
 
     public PanelJeu(ArrayList<Element> _listeElements, Terrain _terrain, BilleBlanche _billeBlanche) {
-    	super();
-      Chrono = new Timer( 5000, this );
-    	int haut = 50; // hauteur des éléments de choix de la norme du tir
-    	billeBlanche = _billeBlanche;
-      listeElements = _listeElements;
-      terrain = _terrain;
+        super();
+        Chrono = new Timer( 5000, this );
+        int haut = 50; // hauteur des éléments de choix de la norme du tir
+        billeBlanche = _billeBlanche;
+        listeElements = _listeElements;
+        terrain = _terrain;
 
-      //dimension du panel qui va contenir le terrain, et les éléments de choix de la norme du tir
-		  this.setBounds(100,150, (int)terrain.getXTerrain()+2*translate, (int)terrain.getYTerrain()+2*translate+haut);
-      //on va écouter le mouvement de la souris et les clics
-      addMouseListener(this);
-      addMouseMotionListener(this);
+        //dimension du panel qui va contenir le terrain, et les éléments de choix de la norme du tir
+        this.setBounds(100,150, (int)terrain.getXTerrain()+2*translate, (int)terrain.getYTerrain()+2*translate+haut);
+        //on va écouter le mouvement de la souris et les clics
+        addMouseListener(this);
+        addMouseMotionListener(this);
 
-      // valeur maximale que le curseur va pouvoir proposer pour la norme
-		  int Vmax = 500;
-      // création du curseur du choix de la norme
-      curseurNorme = new JSlider(JSlider.HORIZONTAL,0, Vmax, 0);
-      curseurNorme.addChangeListener(this);
-      curseurNorme.setBounds(0,(int)terrain.getYTerrain()+2*translate, 300,haut);
-      // création du bouton permettant de valider le choix de la norme
-      validerNorme = new JButton("Valider");
-      validerNorme.addActionListener(this);
-      validerNorme.setBounds(300,(int)terrain.getYTerrain()+2*translate, 200, haut);
-      // ajout des éléments dans le panel
-      this.add(curseurNorme);
-		  this.add(validerNorme);
-      setLayout(null);
+        // valeur maximale que le curseur va pouvoir proposer pour la norme
+        int Vmax = 500;
+        // création du curseur du choix de la norme
+        curseurNorme = new JSlider(JSlider.HORIZONTAL,0, Vmax, 0);
+        curseurNorme.addChangeListener(this);
+        curseurNorme.setBounds(0,(int)terrain.getYTerrain()+2*translate, 300,haut);
+        // création du bouton permettant de valider le choix de la norme
+        validerNorme = new JButton("Valider");
+        validerNorme.addActionListener(this);
+        validerNorme.setBounds(300,(int)terrain.getYTerrain()+2*translate, 200, haut);
+        // ajout des éléments dans le panel
+        this.add(curseurNorme);
+        this.add(validerNorme);
+        setLayout(null);
     }
 
 // GET et SET -----------------------------------------------------------------------------------------------------
@@ -138,6 +139,7 @@ public class PanelJeu extends JPanel implements MouseMotionListener, MouseListen
         // Le timer permet d'effacer les messages ephémères du panel après un certain temps ( 5sec )
         if(e.getSource()==Chrono){
           Message=null;
+          Chrono.stop();
           repaint();
         }
 
@@ -222,6 +224,7 @@ public class PanelJeu extends JPanel implements MouseMotionListener, MouseListen
         //On affiche un message de faute ou de consigne si il y en a
         if(Message!=null){
 			g.setColor(Color.red);
+            g.setFont(new Font("Arial", Font.PLAIN, 20)); 
             g.drawString(Message, (int)terrain.getXTerrain()/2+translate, 3*translate );
 
         }
