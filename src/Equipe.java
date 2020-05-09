@@ -35,6 +35,7 @@ public class Equipe{
 
     public void setScore(int BillesRestantes){
         Score = BillesRestantes;
+
     }
 
     /**
