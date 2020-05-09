@@ -25,6 +25,10 @@ public class Equipe{
         j.setEquipe(this);
     }
 
+    public BilleCouleur getBilleCouleur(){
+        return billeCouleurAssociée;
+    }
+
     public void setBilleCouleur(BilleCouleur _bc){
         this.billeCouleurAssociée = _bc;
     }
@@ -82,6 +86,22 @@ public class Equipe{
 
         eq.revalidate();
         eq.repaint();
+    }
+
+    public void genererContenuFinPartie(JPanel eq){
+        if (billeCouleurAssociée != null){
+            System.out.println(billeCouleurAssociée.getCouleur());
+            eq.setForeground(billeCouleurAssociée.getCouleur());
+            eq.setBackground(billeCouleurAssociée.getCouleur());
+        }
+ 
+        for (Joueur j : listeJoueurs){
+            JLabel joueurLbl = new JLabel(j.getNom());
+            joueurLbl.setFont(new Font("Arial", Font.BOLD, 20));
+            eq.add(joueurLbl);
+        }
+
+
     }
 
     @Override

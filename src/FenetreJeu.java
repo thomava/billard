@@ -39,7 +39,6 @@ public class FenetreJeu extends JFrame implements ActionListener {
         panneauGeneral.add(panelJeu);
 
         this.add(panneauGeneral);
-        this.setVisible(true);
     }
 
     public void genererContenuPanneauInformation(JPanel panneauInfo){

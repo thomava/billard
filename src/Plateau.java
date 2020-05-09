@@ -1,11 +1,6 @@
-/*
- * TODO :  Gérer le score.
- * TODO :  Gérer la fin de tour.
- * TODO :  Gérer la fin de partie.
- */
-
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Arrays;
 import java.awt.Color;
 
@@ -39,6 +34,7 @@ public class Plateau{
         listeBillesTombées = new ArrayList<Bille>();
 
         moteurPhy = new MoteurPhysique(panelJeu, bb, listeElements);
+
     }
 
 
@@ -115,7 +111,9 @@ public class Plateau{
      * Méthode utilisée pour lancer la partie.
      */
     public void lancerPartie(){
-        while(!partieTerminée()){
+        this.fj.setVisible(true);
+        boolean partTerminée = false;
+        do{
             fj.genererContenuPanneauEquipe(listeEquipes, joueurActuel);
 
             if (billeBlancheTombée){
@@ -128,26 +126,49 @@ public class Plateau{
 
             DescriptionTour desc = new DescriptionTour(faute, joueurActuel);
             moteurPhy.executerTour(desc, tir);
-            // TODO : Lancer le moteur physique à partir des paramètre de tir
-            // récuprer la méthode au dessus. Cette méthode est blocante. Elle
-            // retourne le controle à plateau quand toutes les billes sont
-            // arretées. Et donc quand le tour est terminé ! Cette méthode
-            // retourne les informations importantes sur le tour : présence de
-            // faute, billes qui sont tombées.
 
-            boolean peutRejouer = finDeTour(desc);
-            if (!peutRejouer){
+            if (!finDeTour(desc)){
                prochainJoueur();
             }
-        }
+
+            partTerminée = partieTerminée(desc);
+        }while(!partTerminée);
+    }
+
+    /**
+     * Actions à executer à la fin d'une partie.
+     */
+    public void finDePartie(Equipe billeNoireEq, Equipe eqGagne){
+        //On ferme la fenetre du billard.
+        fj.dispose();
+        FenetreFinPartie fp = new FenetreFinPartie(billeNoireEq, 
+                                                   eqGagne, 
+                                                   listeEquipes);
+        fp.setVisible(true);
     }
 
     /**
      * Vérifie à partir des règles du jeu si la partie est terminée.
      * @return True si la partie est terminée.
      */
-    public boolean partieTerminée(){
-       // TODO : La méthode
+    public boolean partieTerminée(DescriptionTour dt){
+        System.out.println("test fin");
+        if (dt.isBilleNoireTombée()){
+            System.out.println("billenoire");
+            finDePartie(dt.getJoueurActuel().getEquipe(), null);
+            return true;
+        }
+
+        for (Equipe e : listeEquipes){
+            System.out.println(nombreBillesRestantes(e.getBilleCouleur()));
+            if (0 == nombreBillesRestantes(e.getBilleCouleur())){
+                finDePartie(null, e); 
+            }
+
+
+        }
+
+         
         return false;
     }
 
@@ -247,5 +268,19 @@ public class Plateau{
         }
         return c;
     }
+
+    public int nombreBillesRestantes(BilleCouleur _billeCouleur){
+        int c = 0;
+        for( Element e : listeElements){
+            if (e instanceof Bille){
+            Bille b = (Bille) e;
+                if(b.getBilleCouleur() == _billeCouleur){
+                    c += 1;
+                }
+            }
+        }
+        return c;
+    }
+    
 
 }
