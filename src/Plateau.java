@@ -34,7 +34,6 @@ public class Plateau{
         listeBillesTombées = new ArrayList<Bille>();
 
         moteurPhy = new MoteurPhysique(panelJeu, bb, listeElements);
-
     }
 
 
@@ -82,7 +81,6 @@ public class Plateau{
                 k++;
             }
         }
-
         return elementArray;
     }
 
@@ -113,6 +111,7 @@ public class Plateau{
     public void lancerPartie(){
         this.fj.setVisible(true);
         boolean partTerminée = false;
+        prochainJoueur();
         do{
             fj.genererContenuPanneauEquipe(listeEquipes, joueurActuel);
 
@@ -152,20 +151,15 @@ public class Plateau{
      * @return True si la partie est terminée.
      */
     public boolean partieTerminée(DescriptionTour dt){
-        System.out.println("test fin");
         if (dt.isBilleNoireTombée()){
-            System.out.println("billenoire");
             finDePartie(dt.getJoueurActuel().getEquipe(), null);
             return true;
         }
 
         for (Equipe e : listeEquipes){
-            System.out.println(nombreBillesRestantes(e.getBilleCouleur()));
             if (0 == nombreBillesRestantes(e.getBilleCouleur())){
                 finDePartie(null, e);
             }
-
-
         }
 
 
@@ -190,29 +184,29 @@ public class Plateau{
         this.listeBillesTombées.addAll(desc.getListeBillesTombées());
         this.billeBlancheTombée = desc.isBilleBlancheTombée();
 
+        if(desc.isPremièreBilleTombée())
+        {
+            gérerAttributionEquipes(desc);
+        }
+
         // Gestion du score
         for(Equipe eq : listeEquipes){
             //Si les équipes sont liées aux couleurs
             if (eq.getBilleCouleur() != null){
                 eq.setScore(nombreBillesRestantes(eq.getBilleCouleur()));
-                System.out.println(listeElements.size());
             }
         }
+
         if(faute){
           panelJeu.afficherFaute();
         }
-        fj.repaint();
 
-        if(desc.isPremièreBilleTombée())
-        {
-            gérerAttributionEquipes(desc);
-        }
+        fj.repaint();
         return (desc.peutRejouer());
     }
 
     public void gérerAttributionEquipes(DescriptionTour desc){
         Bille première = desc.getPremièreBilleTombée();
-        System.out.println(première);
         for (BilleCouleur c : listeCouleurs){
             if (c == première.getBilleCouleur())
             {

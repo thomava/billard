@@ -74,7 +74,6 @@ public class Equipe{
         eq.add(scorePan);
 
         if (billeCouleurAssociée != null){
-            System.out.println(billeCouleurAssociée.getCouleur());
             eq.setForeground(billeCouleurAssociée.getCouleur());
             eq.setBackground(billeCouleurAssociée.getCouleur());
             scorePan.setBackground(billeCouleurAssociée.getCouleur());
@@ -87,7 +86,6 @@ public class Equipe{
 
     public void genererContenuFinPartie(JPanel eq){
         if (billeCouleurAssociée != null){
-            System.out.println(billeCouleurAssociée.getCouleur());
             eq.setForeground(billeCouleurAssociée.getCouleur());
             eq.setBackground(billeCouleurAssociée.getCouleur());
         }

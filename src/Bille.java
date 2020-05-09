@@ -18,7 +18,6 @@ public class Bille extends Element{
     /**
     * fonction qui va permettre de construire notre objet en définissant son rayon et sa taille
     */
-
     public Bille(Vecteur position, BilleCouleur _couleur, double rayon, double masse){
 		this.position = position;
         this.rayon = rayon;
@@ -134,23 +133,15 @@ public class Bille extends Element{
   		position.x += vitesse.x*dT;
   		position.y += vitesse.y*dT;
 
-      //On diminue l'acceleration pour le prochain déplacement
-      double visq = 2;
-      double k = 6*Math.PI*rayon*visq;
-      acceleration.x=-k*vitesse.x/masse;
-      acceleration.y=-k*vitesse.y/masse;
+        //On diminue l'acceleration pour le prochain déplacement
+        double visq = 2;
+        double k = 6*Math.PI*rayon*visq;
+        acceleration.x=-k*vitesse.x/masse;
+        acceleration.y=-k*vitesse.y/masse;
 
-      //on calcule la nouvelle vitesse de la Bille
+        //on calcule la nouvelle vitesse de la Bille
   		vitesse.x += dT*acceleration.x;
   		vitesse.y += dT*acceleration.y;
-    }
-
-    /**
-    * Méthode qui diminue l'accéleration d'une bille selon sa vitesse et la visquosité que l'on définit
-    */
-    private void DiminuerAcceleration(){
-  		//double visq =1.85*Math.pow(10,-8); // avec la viquosité dynamique en grammes par metre par secondes
-
     }
 
     // FONCTIONS De Gestion des Contacts  -----------------------------------
