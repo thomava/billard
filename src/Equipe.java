@@ -33,8 +33,9 @@ public class Equipe{
         this.billeCouleurAssociée = _bc;
     }
 
-    public void setScore(int BillesTombees){
-        Score = 7 - BillesTombees;
+    public void setScore(int BillesRestantes){
+        Score = BillesRestantes;
+
     }
 
     /**
