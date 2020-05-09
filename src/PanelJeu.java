@@ -61,6 +61,8 @@ public class PanelJeu extends JPanel implements MouseMotionListener, MouseListen
       setLayout(null);
     }
 
+// GET et SET -----------------------------------------------------------------------------------------------------
+
     public void afficherFaute(){
         Message = "Une faute a été comise." ;
         Chrono.start();
@@ -77,30 +79,30 @@ public class PanelJeu extends JPanel implements MouseMotionListener, MouseListen
         repaint();
     }
 
+// Gestion des évènements sur la souris ---------------------------------------------------------------------------
+
 //Quand le joueur doit choisir son tire, on affiche le vecteur quand il bouge
-	public void mouseMoved(MouseEvent e) {
+    public void mouseMoved(MouseEvent e) {
 
-    if((tirJoue==null)&&(direction==null) || etatReplacementBilleBlanche){
+        if((tirJoue==null)&&(direction==null) || etatReplacementBilleBlanche){
 
-        xS = e.getX() - translate;
-        yS = e.getY() - translate;
-        repaint();
+            xS = e.getX() - translate;
+            yS = e.getY() - translate;
+            repaint();
 
-        if (etatReplacementBilleBlanche){
-            billeBlanche.setPosition(new Vecteur(xS, yS));
+            if (etatReplacementBilleBlanche){
+                billeBlanche.setPosition(new Vecteur(xS, yS));
+            }
         }
-
     }
 
-    }
-
-  // Méthodes inutiles mais obligatoires pour compiler. Il faut tenir compte du
-  // contrat passer avec les interfaces.
-  public void mouseDragged(MouseEvent e) {}
-  public void mouseExited(MouseEvent e) {}
-  public void mouseEntered(MouseEvent e) {}
-  public void mouseReleased(MouseEvent e) {}
-  public void mouseClicked(MouseEvent e) {}
+    // Méthodes inutiles mais obligatoires pour compiler. Il faut tenir compte du
+    // contrat passer avec les interfaces.
+    public void mouseDragged(MouseEvent e) {}
+    public void mouseExited(MouseEvent e) {}
+    public void mouseEntered(MouseEvent e) {}
+    public void mouseReleased(MouseEvent e) {}
+    public void mouseClicked(MouseEvent e) {}
 
     public void mousePressed(MouseEvent e) {
         if((tirJoue==null)&&(direction==null)){
@@ -112,21 +114,28 @@ public class PanelJeu extends JPanel implements MouseMotionListener, MouseListen
         }
   	}
 
+// Gestion des évènements des éléments graphiques ---------------------------------------------------------------------------
     public void actionPerformed(ActionEvent e) {
+
+        // Lorsque l'utilisateur va cliquer sur le bouton valider
         if(e.getSource()==validerNorme){
             try{
+                // Si la norme est non nulle, on essaie de créer l'objet
                 if(norme!=0.0){
                     tirJoue = new Tir(direction.mul(norme));
             		    curseurNorme.setValue(0);
                 }
                 else{
+                    // Si la norme est nulle, on demande à l'utilisateur de choisir une norme
                     afficherNorme();
                 }
+            // Si on ne peut pas effectuer le try, c'est que le vecteur est nul donc on demande à l'utilisateur de valider une direction
         	  }catch(NullPointerException a){
             		afficherClic();
         	  }
         }
 
+        // Le timer permet d'effacer les messages ephémères du panel après un certain temps ( 5sec )
         if(e.getSource()==Chrono){
           Message=null;
           repaint();
@@ -134,24 +143,19 @@ public class PanelJeu extends JPanel implements MouseMotionListener, MouseListen
 
     }
 
-  public void stateChanged(ChangeEvent e) {
-    JSlider source = (JSlider)e.getSource();
-    norme = (double)source.getValue();
-    repaint();
-}
 
-  private void updateMousePosition(){
-      this.xS = (int)(MouseInfo.getPointerInfo().getLocation().getX()
-                        - this.getLocationOnScreen().getX()
-                        - translate);
-      this.yS = (int)(MouseInfo.getPointerInfo().getLocation().getY()
-                        - this.getLocationOnScreen().getY()
-                        - translate);
+    public void stateChanged(ChangeEvent e) {
+        // Chaque fois que l'utilisateur change la valeur de la norme, l'affichage s'adapte à la nouvelle norme
+        JSlider source = (JSlider)e.getSource();
+        norme = (double)source.getValue();
+        repaint();
   }
 
+//Méthodes d'attente de décision ---------------------------------------------------------------------------
   public void attendreReplacerBilleBlanche() {
       this.etatReplacementBilleBlanche = true;
 
+      //On affiche
       updateMousePosition();
       billeBlanche.setPosition(new Vecteur(xS, yS));
 
@@ -164,8 +168,6 @@ public class PanelJeu extends JPanel implements MouseMotionListener, MouseListen
           }catch(InterruptedException e) {}
       }
     }
-
-
 
   public Tir attendreTir() {
       direction=null;
@@ -235,5 +237,14 @@ public class PanelJeu extends JPanel implements MouseMotionListener, MouseListen
         g2.setColor(Color.black);
         g2.drawLine((int)(billeBlanche.position.x - dir.mul(16).x), (int)(billeBlanche.position.y - dir.mul(16).y), (int)(billeBlanche.position.x - dir.mul(30).x), (int)(billeBlanche.position.y - dir.mul(30).y));
         g2.setStroke(s);
+    }
+
+    private void updateMousePosition(){
+        this.xS = (int)(MouseInfo.getPointerInfo().getLocation().getX()
+                          - this.getLocationOnScreen().getX()
+                          - translate);
+        this.yS = (int)(MouseInfo.getPointerInfo().getLocation().getY()
+                          - this.getLocationOnScreen().getY()
+                          - translate);
     }
 }
