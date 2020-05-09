@@ -62,7 +62,7 @@ public class Plateau{
               elementArray.add(haut);
               elementArray.add(bas);
         }
-        
+
         // génération des billes sur le terrain
         BilleCouleur cr = new BilleCouleur(Color.red);
         BilleCouleur cj = new BilleCouleur(Color.yellow);
@@ -117,7 +117,7 @@ public class Plateau{
     public void lancerPartie(){
         while(!partieTerminée()){
             fj.genererContenuPanneauEquipe(listeEquipes, joueurActuel);
-            
+
             if (billeBlancheTombée){
                 do{
                     panelJeu.attendreReplacerBilleBlanche();
@@ -168,6 +168,12 @@ public class Plateau{
         this.faute = desc.isFauteCommise();
         this.listeBillesTombées.addAll(desc.getListeBillesTombées());
         this.billeBlancheTombée = desc.isBilleBlancheTombée();
+
+        // Gestion du score
+        for(Equipe eq : listeEquipes){
+            eq.setScore(nombreBillesTombees(eq.getBilleCouleur()));
+        }
+
         if(desc.isPremièreBilleTombée())
         {
             gérerAttributionEquipes(desc);
@@ -184,13 +190,13 @@ public class Plateau{
                 c.setEquipe(desc.getJoueurActuel().getEquipe());
                 break;
             }
-        } 
+        }
 
 
         // Tout le reste de la méthode pour gérer le fait qu'il peut y avoir
         // plus de deux équipes. Fait en sorte que la denière équipe soit
         // attribué à la bonne BilleCouleur.
-       
+
         int nbrSet = 0;
         for (BilleCouleur c : listeCouleurs){
             if (c.isEquipeSet())
@@ -207,7 +213,7 @@ public class Plateau{
                 }
             }
             tempListeEquipes.removeAll(equipeDistribuée);
-            
+
             for (BilleCouleur c : listeCouleurs){
                 if (!c.isEquipeSet()){
                     c.setEquipe(tempListeEquipes.get(0));
@@ -226,7 +232,7 @@ public class Plateau{
         return joueurActuel;
     }
 
-    
+
     /**
      * Méthode qui retourne le nombre de billes d'une équipe qui sont tombées.
      * @param equipeBille - équipe dont on veut savoir le nombre de billes qui sont tombées.

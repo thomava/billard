@@ -10,12 +10,14 @@ public class Equipe{
     private int joueurActuel;
     private ArrayList<Joueur> listeJoueurs;
     private BilleCouleur billeCouleurAssociée;
+    private int Score;
 
 
 // CONSTRUCTEURS ----------------------------------------------------
 
     public Equipe(){
         listeJoueurs = new ArrayList<Joueur>();
+        Score = 7;
     }
 
     public void addJoueur(Joueur j){
@@ -27,11 +29,19 @@ public class Equipe{
         this.billeCouleurAssociée = _bc;
     }
 
+    public void setScore(int BillesTombees){
+        Score = 7 - BillesTombees;
+    }
+
+    public BilleCouleur getBilleCouleur(){
+      return billeCouleurAssociée;
+    }
+
     /**
      * Détermine et retourne le prochain joueur de cette équipe.
      * @return le joueur suivant de l'équipe.
      */
-    public Joueur prochainJoueur(){ 
+    public Joueur prochainJoueur(){
         joueurActuel++;
         if (joueurActuel >= listeJoueurs.size())
             joueurActuel = 0;
@@ -50,11 +60,11 @@ public class Equipe{
             }
             eq.add(joueurLbl);
         }
-        
+
         JPanel scorePan = new JPanel();
         scorePan.setLayout(new BorderLayout());
 
-        JLabel scoreLbl = new JLabel("8", SwingConstants.CENTER);
+        JLabel scoreLbl = new JLabel(Integer.toString(Score), SwingConstants.CENTER);
         scoreLbl.setPreferredSize(new Dimension(100,20));
         scoreLbl.setFont(new Font("Arial", Font.BOLD, 24));
 
