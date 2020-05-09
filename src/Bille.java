@@ -129,16 +129,20 @@ public class Bille extends Element{
     * Méthode qui diminue l'accéleration d'une bille selon sa vitesse et la visquosité que l'on définit
     */
     public void actualiser(double dT){
-		//on calcule la nouvelle vitesse de la Bille
-		vitesse.x += dT*acceleration.x;
-		vitesse.y += dT*acceleration.y;
 
-		//on regarde la nouvelle position de la bille
-		position.x += vitesse.x*dT;
-		position.y += vitesse.y*dT;
+  		//on regarde la nouvelle position de la bille
+  		position.x += vitesse.x*dT;
+  		position.y += vitesse.y*dT;
 
-    //On diminue l'acceleration pour le prochain déplacement
-    DiminuerAcceleration();
+      //On diminue l'acceleration pour le prochain déplacement
+      double visq = 2;
+      double k = 6*Math.PI*rayon*visq;
+      acceleration.x=-k*vitesse.x/masse;
+      acceleration.y=-k*vitesse.y/masse;
+
+      //on calcule la nouvelle vitesse de la Bille
+  		vitesse.x += dT*acceleration.x;
+  		vitesse.y += dT*acceleration.y;
     }
 
     /**
@@ -146,10 +150,7 @@ public class Bille extends Element{
     */
     private void DiminuerAcceleration(){
   		//double visq =1.85*Math.pow(10,-8); // avec la viquosité dynamique en grammes par metre par secondes
-        double visq = 2;
-  		double k = 6*Math.PI*rayon*visq;
-  		acceleration.x=-k*vitesse.x/masse;
-  		acceleration.y=-k*vitesse.y/masse;
+
     }
 
     // FONCTIONS De Gestion des Contacts  -----------------------------------
