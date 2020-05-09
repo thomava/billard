@@ -115,6 +115,7 @@ public class Plateau{
      * Méthode utilisée pour lancer la partie.
      */
     public void lancerPartie(){
+        prochainJoueur();
         while(!partieTerminée()){
             fj.genererContenuPanneauEquipe(listeEquipes, joueurActuel);
             
@@ -128,12 +129,6 @@ public class Plateau{
 
             DescriptionTour desc = new DescriptionTour(faute, joueurActuel);
             moteurPhy.executerTour(desc, tir);
-            // TODO : Lancer le moteur physique à partir des paramètre de tir
-            // récuprer la méthode au dessus. Cette méthode est blocante. Elle
-            // retourne le controle à plateau quand toutes les billes sont
-            // arretées. Et donc quand le tour est terminé ! Cette méthode
-            // retourne les informations importantes sur le tour : présence de
-            // faute, billes qui sont tombées.
 
             boolean peutRejouer = finDeTour(desc);
             if (!peutRejouer){
