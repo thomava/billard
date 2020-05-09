@@ -141,8 +141,8 @@ public class Plateau{
     public void finDePartie(Equipe billeNoireEq, Equipe eqGagne){
         //On ferme la fenetre du billard.
         fj.dispose();
-        FenetreFinPartie fp = new FenetreFinPartie(billeNoireEq, 
-                                                   eqGagne, 
+        FenetreFinPartie fp = new FenetreFinPartie(billeNoireEq,
+                                                   eqGagne,
                                                    listeEquipes);
         fp.setVisible(true);
     }
@@ -162,13 +162,13 @@ public class Plateau{
         for (Equipe e : listeEquipes){
             System.out.println(nombreBillesRestantes(e.getBilleCouleur()));
             if (0 == nombreBillesRestantes(e.getBilleCouleur())){
-                finDePartie(null, e); 
+                finDePartie(null, e);
             }
 
 
         }
 
-         
+
         return false;
     }
 
@@ -194,6 +194,10 @@ public class Plateau{
         for(Equipe eq : listeEquipes){
             eq.setScore(nombreBillesTombees(eq.getBilleCouleur()));
         }
+        if(faute){
+          panelJeu.afficherFaute();
+        }
+        fj.repaint();
 
         if(desc.isPremièreBilleTombée())
         {
@@ -281,6 +285,6 @@ public class Plateau{
         }
         return c;
     }
-    
+
 
 }

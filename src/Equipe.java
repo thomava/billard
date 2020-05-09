@@ -37,10 +37,6 @@ public class Equipe{
         Score = 7 - BillesTombees;
     }
 
-    public BilleCouleur getBilleCouleur(){
-      return billeCouleurAssociée;
-    }
-
     /**
      * Détermine et retourne le prochain joueur de cette équipe.
      * @return le joueur suivant de l'équipe.
