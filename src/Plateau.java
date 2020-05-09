@@ -192,7 +192,11 @@ public class Plateau{
 
         // Gestion du score
         for(Equipe eq : listeEquipes){
-            eq.setScore(nombreBillesTombees(eq.getBilleCouleur()));
+            //Si les équipes sont liées aux couleurs
+            if (eq.getBilleCouleur() != null){
+                eq.setScore(nombreBillesRestantes(eq.getBilleCouleur()));
+                System.out.println(listeElements.size());
+            }
         }
 
         if(desc.isPremièreBilleTombée())
