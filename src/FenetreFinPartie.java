@@ -11,10 +11,12 @@ public class FenetreFinPartie extends JFrame{
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
 
+        this.getContentPane().setLayout(new BorderLayout());
+
+
         JPanel genEqPan = new JPanel();
         genEqPan.setLayout(new BoxLayout(genEqPan, BoxLayout.Y_AXIS));
         this.getContentPane().add(genEqPan);
-        this.getContentPane().setLayout(new BorderLayout());
 
         System.out.println("-----------------------------");
         System.out.println("PARTIE TERMINÉE");
@@ -28,14 +30,14 @@ public class FenetreFinPartie extends JFrame{
                 JLabel billeNoireEqLbl = new JLabel(" ont fait tombé la bille noire !");
                 billeNoireEqLbl.setFont(new Font("Arial", Font.PLAIN, 20));
                 eqPan.add(billeNoireEqLbl);
-                System.out.print(e.getBilleCouleur()+" a fait tomber la bille noire");
+                System.out.println(e.getBilleCouleur()+" a fait tomber la bille noire");
             }
 
             if (gagne == e){
                 JLabel gagneLbl = new JLabel(" ont gagné !");
                 gagneLbl.setFont(new Font("Arial", Font.PLAIN, 20));
                 eqPan.add(gagneLbl);
-                System.out.print(e.getBilleCouleur()+" a fait tomber toutes les billes");
+                System.out.println(e.getBilleCouleur()+" a fait tomber toutes les billes");
             }
 
             genEqPan.add(eqPan, BorderLayout.CENTER);

@@ -34,6 +34,7 @@ public class Plateau{
         listeBillesTombées = new ArrayList<Bille>();
 
         moteurPhy = new MoteurPhysique(panelJeu, bb, listeElements);
+
     }
 
 
