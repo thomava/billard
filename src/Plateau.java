@@ -117,7 +117,7 @@ public class Plateau{
         boolean partTerminée = false;
         prochainJoueur();
         do{
-            fj.genererContenuPanneauEquipe(listeEquipes, joueurActuel);
+            fj.genererContenuPanneauEquipe(listeEquipes, joueurActuel, this.faute);
 
             if (billeBlancheTombée){
                 do{

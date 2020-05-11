@@ -14,7 +14,7 @@ public class DescriptionTour{
     private ArrayList<Bille> billesTombéesTour;
     private boolean peutRejouer;
     private Joueur joueurActuel;
-    private boolean fauteTourAvant;
+    private boolean coupLibrePermis;
     private Bille premierContact;
 
     private boolean billeBlancheTombée;
@@ -28,7 +28,7 @@ public class DescriptionTour{
         this.fauteCommise = false;
         this.peutRejouer = false;
         this.joueurActuel = _joueurActuel;
-        this.fauteTourAvant = _fauteTourAvant;
+        this.coupLibrePermis = _fauteTourAvant;
 
         this.billeBlancheTombée = false;
         this.billeNoireTombée = false;
@@ -113,7 +113,8 @@ public class DescriptionTour{
         if (!isPremierContactSet()){
             fauteCommise = true;
         }
-        return fauteCommise;
+        
+        return !coupLibrePermis && fauteCommise;
     }
 
     public Joueur getJoueurActuel(){
@@ -123,12 +124,7 @@ public class DescriptionTour{
     // Méthode à appeler une fois le tour finis, sinon la détermination des
     // règles sera mal effectuée.
     public boolean peutRejouer(){
-        //Si aucune bille n'est rentrée en contact avec la bille blanche alors
-        //il y a forcement une faite.
-        if (!isPremierContactSet()){
-            fauteCommise = true;
-        }
-        return ((fauteTourAvant || peutRejouer) && !fauteCommise);
+        return (peutRejouer && !isFauteCommise());
     }
 
     @Override
