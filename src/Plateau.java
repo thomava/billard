@@ -155,15 +155,19 @@ public class Plateau{
      * @return True si la partie est terminée.
      */
     public boolean partieTerminée(DescriptionTour dt){
-        if (dt.isBilleNoireTombée()){
-            finDePartie(dt.getJoueurActuel().getEquipe(), null);
-            return true;
-        }
 
         for (Equipe e : listeEquipes){
             if (0 == nombreBillesRestantes(e.getBilleCouleur())){
-                finDePartie(null, e);
+                if (dt.getJoueurActuel().getEquipe() == e && dt.isBilleNoireTombée()){
+                    finDePartie(null, e);
+                    return true;
+                }
             }
+        }
+
+        if (dt.isBilleNoireTombée()){
+            finDePartie(dt.getJoueurActuel().getEquipe(), null);
+            return true;
         }
 
 
@@ -188,7 +192,7 @@ public class Plateau{
         this.listeBillesTombées.addAll(desc.getListeBillesTombées());
         this.billeBlancheTombée = desc.isBilleBlancheTombée();
 
-        if(desc.isPremièreBilleTombée())
+        if(desc.isPremièreBilleTombée() && desc.getJoueurActuel().getEquipe().getBilleCouleur() == null)
         {
             gérerAttributionEquipes(desc);
         }
