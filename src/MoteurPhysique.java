@@ -124,10 +124,17 @@ public class MoteurPhysique{
         }
 
         //Register le premier contact avec une bille du tour.
+        //Le premier contact est forcement engendré par la bille blanche car
+        //c'est la seule en mouvement au moment de la première collisiona avec
+        //une autre bille.
         if (!desc.isPremierContactSet()){
             for (Contact c : listeContactsNoDup){
                 if (c.getContactElement() instanceof Bille){
-                    desc.registerPremierContact(((Bille) c.getContactElement()));
+                    if (c.getContactElement() instanceof BilleBlanche){
+                        desc.registerPremierContact(c.getBille());
+                    }else{
+                        desc.registerPremierContact(((Bille) c.getContactElement()));
+                    }
                 }
             }
         }

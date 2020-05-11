@@ -40,14 +40,21 @@ public class DescriptionTour{
      * Méthode qui permet de renseigner le premier contact.
      */
     public void registerPremierContact(Bille _b){
-        if (!(_b instanceof BilleBlanche || _b instanceof BilleNoire))
+        if (!(_b instanceof BilleBlanche))
         { 
             premierContact = _b;
-            if (_b.getBilleCouleur().isEquipeSet()){
+
+            if (_b instanceof BilleNoire){
+                this.fauteCommise = true;
+            }
+            else if (_b.getBilleCouleur().isEquipeSet()){
+                System.out.println("check faute première collision");
                 if (_b.getBilleCouleur().getEquipe() != joueurActuel.equipe){
                     this.fauteCommise = true; 
                 }
             }
+        }else{
+            
         }
     }
 
@@ -98,7 +105,14 @@ public class DescriptionTour{
         return billeNoireTombée;
     }
 
+    // Méthode à appeler une fois le tour finis, sinon la détermination des
+    // règles sera mal effectuée.
     public boolean isFauteCommise(){
+        //Si aucune bille n'est rentrée en contact avec la bille blanche alors
+        //il y a forcement une faite.
+        if (!isPremierContactSet()){
+            fauteCommise = true;
+        }
         return fauteCommise;
     }
 
@@ -106,7 +120,14 @@ public class DescriptionTour{
         return joueurActuel;
     }
 
+    // Méthode à appeler une fois le tour finis, sinon la détermination des
+    // règles sera mal effectuée.
     public boolean peutRejouer(){
+        //Si aucune bille n'est rentrée en contact avec la bille blanche alors
+        //il y a forcement une faite.
+        if (!isPremierContactSet()){
+            fauteCommise = true;
+        }
         return ((fauteTourAvant || peutRejouer) && !fauteCommise);
     }
 

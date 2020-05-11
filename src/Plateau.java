@@ -44,11 +44,8 @@ public class Plateau{
         double rayonBille = 13;
         double rayonTrou = 18;
 
-        bb = new BilleBlanche(new Vecteur(600,200), rayonBille, 200);
         tr = new Terrain(diagonaleTerrain);
         elementArray.add(tr);
-        elementArray.add(bb);
-        this.billeBlancheTombée = false;
 
         // génération des trous du terrain
         for (int i = 0; i<3 ; i++){
@@ -58,6 +55,12 @@ public class Plateau{
               elementArray.add(haut);
               elementArray.add(bas);
         }
+
+
+        bb = new BilleBlanche(new Vecteur(600,200), rayonBille, 200);
+        elementArray.add(bb);
+        this.billeBlancheTombée = false;
+
 
         // génération des billes sur le terrain
         BilleCouleur cr = new BilleCouleur(Color.red);

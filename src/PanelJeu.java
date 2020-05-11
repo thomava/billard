@@ -191,7 +191,7 @@ public class PanelJeu extends JPanel implements MouseMotionListener, MouseListen
 // AFFICHAGE ----------------------------------------------------------------------------------------------------
 
     public void paint(Graphics g){
-    super.paint(g);
+        super.paint(g);
 
         // On affiche les éléments du plateau en ne décalant le coin pour que le plateau s'affiche bien au milieu du pane et que les éléments sient bien positionnés
         g.translate(translate,translate);

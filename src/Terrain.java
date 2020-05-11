@@ -48,11 +48,11 @@ public class Terrain extends Element{
     public Contact recoitContact(Bille b){
         //TODO : pourquoi - 25 ?????
         if (b.position.y - b.getRayon() < 0)
-            return new Contact(b, this, new Vecteur(0, 1), b.getRayon() - b.position.y);
+            return new Contact(b, this, new Vecteur(0, -1), b.getRayon() - b.position.y);
         else if (b.position.y + b.getRayon() > taille.y)
             return new Contact(b, this, new Vecteur(0, 1), b.getRayon() - taille.y + b.position.y);
         else if (b.position.x - b.getRayon() < 0)
-            return new Contact(b, this, new Vecteur(1, 0), b.getRayon() - b.position.x);
+            return new Contact(b, this, new Vecteur(-1, 0), b.getRayon() - b.position.x);
         else if (b.position.x + b.getRayon() > taille.x)
             return new Contact(b, this, new Vecteur(1, 0), b.getRayon() - taille.x + b.position.x);
         return null;

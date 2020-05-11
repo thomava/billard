@@ -65,6 +65,10 @@ public class Contact implements Comparable<Contact>{
             newVitNorm1 = - vitNorm1;
             newVitNorm2 = 0;
             e1.setVitesse(norm.mul(newVitNorm1).add(tan.mul(vitTan1)));
+
+            //On fait en sorte que les billes ne se rentrent pas les une dans
+            //les autres.
+            e1.setPosition(e1.getPosition().add(norm.mul(-(profondeurContact/2 + 0.5))));
         }else{
             //L'element de contact est un trou.
             e1.tomber();
