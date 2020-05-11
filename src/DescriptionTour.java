@@ -20,8 +20,7 @@ public class DescriptionTour{
     private boolean billeBlancheTombée;
     private boolean billeNoireTombée;
 
-    private boolean premièreBilleTombée;
-    private Bille premièreBilleTombéeObjet;
+    private Bille premièreBilleTombée;
 
     public DescriptionTour(boolean _fauteTourAvant, Joueur _joueurActuel){
         this.billesTombéesTour = new ArrayList<Bille>();
@@ -33,7 +32,6 @@ public class DescriptionTour{
         this.billeBlancheTombée = false;
         this.billeNoireTombée = false;
 
-        this.premièreBilleTombée = false;
     }
 
     /**
@@ -71,26 +69,29 @@ public class DescriptionTour{
         }else{
             this.billesTombéesTour.add(_b);
 
-            if (_b.getBilleCouleur().isEquipeSet()){
-                if (_b.getBilleCouleur().getEquipe() == joueurActuel.equipe){
-                    this.peutRejouer = true;
+            if (!isPremièreBilleTombée()){
+                this.premièreBilleTombée = _b;
+
+                if (_b.getBilleCouleur().isEquipeSet()){
+                    if (_b.getBilleCouleur().getEquipe() == joueurActuel.equipe){
+                        this.peutRejouer = true;
+                    }else{
+                        this.fauteCommise = true;
+                    }
                 }else{
-                    this.fauteCommise = true;
+                    this.peutRejouer = true;
                 }
-            }else{
-                this.premièreBilleTombéeObjet = _b;
-                this.premièreBilleTombée = true;
-                this.peutRejouer = true;
             }
+
         }
     }
 
     public boolean isPremièreBilleTombée(){
-        return premièreBilleTombée;
+        return premièreBilleTombée != null;
     }
 
     public Bille getPremièreBilleTombée(){
-        return premièreBilleTombéeObjet;
+        return premièreBilleTombée;
     }
 
     public ArrayList<Bille> getListeBillesTombées(){
