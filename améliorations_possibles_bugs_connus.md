@@ -8,7 +8,7 @@ Nous n'avons pas vu de bugs liés à une mauvaise interprétation des règles du
 Les règles du jeu que nous utilisons sont décrites sur la Fenetre règle du jeu
 qui est affichée en appuyant sur le bouton "Règles du jeu"
 
-## Bug liés aux contacts
+## Bugs liés aux contacts
 
 Les contacts sont une partie centrale du programme. Ils doivent être traités
 avec la plus grande rigueur et précision. Malgré les efforts que nous avons
