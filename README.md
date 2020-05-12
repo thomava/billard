@@ -48,6 +48,13 @@ Dans le panneau superieur, il y a toutes les informations pour jouer.
 
 ## Les documents de l'archive
 
-- a
-- b
-- c
+- Algo_CRProjet.pdf     : Document de description global
+    - Cahier des charges
+    - Principe de l'algorithme pour répondre aux problèmes
+    - Problèmes rencontrés et solutions trouvées
+    - Bibliographie
+    - Suggestions d'amélioration
+    - Echéancier
+    - Pourcentage d'implication des membres du groupe
+
+- Algo_ProjetUML.pdf    : Diagramme UML de notre projet
